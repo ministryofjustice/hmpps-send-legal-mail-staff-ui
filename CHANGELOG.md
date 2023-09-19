@@ -7,7 +7,7 @@ This change adds a new info endpoint to expose this id in a consistent place.
 
 For more details ask on the `#hmpps-service-catalogue channel`.
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/212)
+PR: [here](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/pull/212)
 
 ---
 
@@ -15,7 +15,7 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/2
 
 It's not safe to retry idempotent calls as this introduces the risk of creating multiple resources. This fix changes the default to not carry out any retries but allows switching on retrying if desired.
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/197) 
+PR: [here](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/pull/197) 
 
 ---
 
@@ -23,7 +23,7 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/1
 
 Asset caching was only set to 20 seconds. This fix changes the default to 1 hour which has a profound effect on the number of requests the application serves.
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/178) 
+PR: [here](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/pull/178) 
 
 ---
 
@@ -31,7 +31,7 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/1
 
 There was an additional unnecessary build step as part of start:dev npm task. This more than doubled the start time on the initial run.
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/172) 
+PR: [here](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/pull/172) 
 
 ---
 
@@ -39,7 +39,7 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/1
 
 Updates the Content Security Policy to fix issues when users would be stuck on pages after submitting a form after their session times out. (Lots more detail in the PR)
 
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/170) 
+PR: [here](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/pull/170) 
 
 ---
 
@@ -47,4 +47,4 @@ PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/1
 
 Multibuild docker images ended up taking a very long time after the upgrade to node 18 (1hr+). Some work needs to be done to move to support multi host builds in our circle orb, in the meantime we’ve removed this and are just building images solely for deployment. 
  
-PR: [here](https://github.com/ministryofjustice/hmpps-template-typescript/pull/149)
+PR: [here](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/pull/149)
