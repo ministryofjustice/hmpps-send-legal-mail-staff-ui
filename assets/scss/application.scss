@@ -8,4 +8,8 @@ $govuk-page-width: $moj-page-width;
 @import 'moj/all';
 
 @import './components/header-bar';
+@import './components/card';
+@import './components/manual-barcode-form';
+@import './components/scan-barcode-form';
+@import './components/scan-barcode-result';
 @import 'assets/scss/local';

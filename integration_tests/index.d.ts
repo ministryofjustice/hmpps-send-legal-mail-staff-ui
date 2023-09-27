@@ -5,5 +5,15 @@ declare namespace Cypress {
      * @example cy.signIn({ failOnStatusCode: boolean })
      */
     signIn(options?: { failOnStatusCode: boolean }): Chainable<AUTWindow>
+
+    /**
+     * Custom command to sign in as a Legal Sender
+     */
+    signInAsLegalSender<S = unknown>(): Chainable<S>
+
+    /**
+     * Custom command to sign in as the smoke test environment Legal Sender
+     */
+    signInAsSmokeTestLegalSender<S = unknown>(): Chainable<S>
   }
 }

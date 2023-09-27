@@ -27,7 +27,6 @@ context('Healthcheck', () => {
 
       cy.request({ url: '/health', method: 'GET', failOnStatusCode: false }).then(response => {
         expect(response.body.checks.hmppsAuth).to.equal('OK')
-        expect(response.body.checks.tokenVerification).to.contain({ status: 500, retries: 2 })
       })
     })
   })

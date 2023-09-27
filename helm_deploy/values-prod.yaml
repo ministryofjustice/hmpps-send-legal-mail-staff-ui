@@ -2,13 +2,18 @@
 # Per environment values which override defaults in hmpps-send-legal-mail-staff-ui/values.yaml
 
 generic-service:
-  ingress:
-    host: hmpps-send-legal-mail-staff-ui.hmpps.service.justice.gov.uk
+  replicaCount: 4
 
   env:
-    INGRESS_URL: "https://hmpps-send-legal-mail-staff-ui.hmpps.service.justice.gov.uk"
+    INGRESS_URL: "https://check-rule39-mail.prison.service.justice.gov.uk"
     HMPPS_AUTH_URL: "https://sign-in.hmpps.service.justice.gov.uk/auth"
     TOKEN_VERIFICATION_API_URL: "https://token-verification-api.prison.service.justice.gov.uk"
+    SEND_LEGAL_MAIL_API_URL: "https://send-legal-mail-api.prison.service.justice.gov.uk"
+    PRISON_REGISTER_API_URL: "https://prison-register.hmpps.service.justice.gov.uk"
+    ONE_TIME_CODE_AUTH_ENABLED: "true"
 
 generic-prometheus-alerts:
-  alertSeverity: digital-prison-service
+  alertSeverity: send-legal-mail-alerts
+
+ingress:
+  host: check-rule39-mail.prison.service.justice.gov.uk

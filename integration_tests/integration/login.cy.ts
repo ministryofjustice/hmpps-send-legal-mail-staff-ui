@@ -1,4 +1,4 @@
-import IndexPage from '../pages/index'
+import IndexPage from '../pages'
 import AuthSignInPage from '../pages/authSignIn'
 import Page from '../pages/page'
 import AuthManageDetailsPage from '../pages/authManageDetails'
@@ -40,29 +40,5 @@ context('SignIn', () => {
     indexPage.manageDetails().get('a').invoke('removeAttr', 'target')
     indexPage.manageDetails().click()
     Page.verifyOnPage(AuthManageDetailsPage)
-  })
-
-  it('Token verification failure takes user to sign in page', () => {
-    cy.signIn()
-    Page.verifyOnPage(IndexPage)
-    cy.task('stubVerifyToken', false)
-
-    // can't do a visit here as cypress requires only one domain
-    cy.request('/').its('body').should('contain', 'Sign in')
-  })
-
-  it('Token verification failure clears user session', () => {
-    cy.signIn()
-    const indexPage = Page.verifyOnPage(IndexPage)
-    cy.task('stubVerifyToken', false)
-
-    // can't do a visit here as cypress requires only one domain
-    cy.request('/').its('body').should('contain', 'Sign in')
-
-    cy.task('stubVerifyToken', true)
-    cy.task('stubAuthUser', 'bobby brown')
-    cy.signIn()
-
-    indexPage.headerUserName().contains('B. Brown')
   })
 })

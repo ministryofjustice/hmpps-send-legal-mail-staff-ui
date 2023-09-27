@@ -1,6 +1,7 @@
 import type { Express } from 'express'
 import request from 'supertest'
-import { appWithAllRoutes } from './testutils/appSetup'
+import { JSDOM } from 'jsdom'
+import appWithAllRoutes from './testutils/appSetup'
 
 let app: Express
 
@@ -13,12 +14,14 @@ afterEach(() => {
 })
 
 describe('GET /', () => {
-  it('should render index page', () => {
+  it(`should render index page with 'Check Rule 39 mail' tile`, () => {
     return request(app)
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('This site is under construction...')
+        const doc = new JSDOM(res.text).window.document
+        const link = doc.querySelector('a[href="/scan-barcode"]')
+        expect(link.textContent).toContain('Check Rule 39 mail')
       })
   })
 })

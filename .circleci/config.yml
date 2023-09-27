@@ -1,3 +1,12 @@
+main_branch: &main_branch
+  filters:
+    branches:
+      only: main
+feature_branch: &feature_branch
+  filters:
+    branches:
+      ignore: main
+
 version: 2.1
 
 orbs:
@@ -9,12 +18,12 @@ parameters:
     type: string
     # Normally team specific alert channel e.g. hmpps_tech_alerts, syscon-alerts, dps_sed_alerts
     # This is to avoid a general alert dumping ground that no-one then monitors
-    default: hmpps_typescript_notifications
+    default: send-legal-mail-alerts
 
   releases-slack-channel:
     type: string
     # Normally dps-releases for most teams / projects
-    default: hmpps_typescript_notifications
+    default: send-legal-mail-alerts
 
   node-version:
     type: string
@@ -43,6 +52,10 @@ jobs:
       - run:
           command: |
             npm run build
+            DATE=$(date '+%Y-%m-%d')
+            export BUILD_NUMBER=${DATE}.${CIRCLE_BUILD_NUM}
+            export GIT_REF="$CIRCLE_SHA1"
+            npm run record-build-info
       - run: # Run linter after build because the integration test code depend on compiled typescript...
           name: Linter check
           command: npm run lint
@@ -50,9 +63,32 @@ jobs:
           root: .
           paths:
             - node_modules
+            - build-info.json
             - build
             - dist
-            - assets/stylesheets
+            - assets
+
+  check_outdated:
+    executor:
+      name: hmpps/node
+      tag: << pipeline.parameters.node-version >>
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: install-npm
+          command: 'npm ci --no-audit'
+      - run:
+          name: Check version
+          command: 'npm --version'
+      - run:
+          name: Run check
+          command: 'npm outdated typescript govuk-frontend'
+      - slack/notify:
+          event: fail
+          channel: << pipeline.parameters.alerts-slack-channel >>
+          template: basic_fail_1
 
   unit_test:
     executor:
@@ -69,6 +105,8 @@ jobs:
           path: test_results
       - store_artifacts:
           path: test_results/unit-test-reports.html
+      - store_artifacts:
+          path: test_results/jest/coverage
 
   integration_test:
     executor:
@@ -126,69 +164,78 @@ workflows:
           name: helm_lint
       - hmpps/build_docker:
           name: build_docker
-          filters:
-            branches:
-              only:
-                - main
+
+      - request-dev-preview-approval:
+          <<: *feature_branch
+          type: approval
+          requires:
+            - helm_lint
+            - unit_test
+            - integration_test
+            - build_docker
       - hmpps/deploy_env:
+          <<: *feature_branch
+          name: deploy_dev_preview
+          env: "dev"
+          context: hmpps-common-vars
+          requires:
+            - request-dev-preview-approval
+
+      - hmpps/deploy_env:
+          <<: *main_branch
           name: deploy_dev
           env: "dev"
           jira_update: true
           context: hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
           requires:
             - helm_lint
             - unit_test
             - integration_test
             - build_docker
           helm_timeout: 5m
-#      - request-preprod-approval:
-#          type: approval
-#          requires:
-#            - deploy_dev
-#      - hmpps/deploy_env:
-#          name: deploy_preprod
-#          env: "preprod"
-#          jira_update: true
-#          jira_env_type: staging
-#          context:
-#            - hmpps-common-vars
-#            - hmpps-send-legal-mail-staff-ui-preprod
-#          requires:
-#            - request-preprod-approval
-#          helm_timeout: 5m
-#      - request-prod-approval:
-#          type: approval
-#          requires:
-#            - deploy_preprod
-#      - hmpps/deploy_env:
-#          name: deploy_prod
-#          env: "prod"
-#          jira_update: true
-#          jira_env_type: production
-#          slack_notification: true
-#          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
-#          context:
-#            - hmpps-common-vars
-#            - hmpps-send-legal-mail-staff-ui-prod
-#          requires:
-#            - request-prod-approval
-#          helm_timeout: 5m
+      - request-preprod-approval:
+          type: approval
+          requires:
+            - deploy_dev
+      - hmpps/deploy_env:
+          name: deploy_preprod
+          env: "preprod"
+          jira_update: true
+          jira_env_type: staging
+          context:
+            - hmpps-common-vars
+            - hmpps-send-legal-mail-staff-ui-preprod
+          requires:
+            - request-preprod-approval
+          helm_timeout: 5m
+      - request-prod-approval:
+          type: approval
+          requires:
+            - deploy_preprod
+      - hmpps/deploy_env:
+          name: deploy_prod
+          env: "prod"
+          jira_update: true
+          jira_env_type: production
+          slack_notification: true
+          slack_channel_name: << pipeline.parameters.releases-slack-channel >>
+          context:
+            - hmpps-common-vars
+            - send-legal-mail-to-prisons-prod
+          requires:
+            - request-prod-approval
+          helm_timeout: 5m
 
   security:
     triggers:
       - schedule:
-          cron: "44 7 * * 1-5"
+          cron: "30 6 * * 1-5"
           filters:
             branches:
               only:
                 - main
     jobs:
-      - hmpps/npm_outdated:
-          slack_channel: << pipeline.parameters.alerts-slack-channel >>
+      - check_outdated:
           context:
             - hmpps-common-vars
       - hmpps/npm_security_audit:
@@ -207,7 +254,7 @@ workflows:
   security-weekly:
     triggers:
       - schedule:
-          cron: "54 7 * * 1"
+          cron: "25 6 * * 1"
           filters:
             branches:
               only:

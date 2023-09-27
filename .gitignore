@@ -71,6 +71,7 @@ web_modules/
 # dotenv environment variables file
 .env
 .env.test
+*.env
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -120,9 +121,12 @@ dist
 assets/stylesheets/*.css
 .idea
 .vscode
+build-info.json
 dist/
 test_results/
 integration_tests/videos/
 integration_tests/screenshots/
-*/*.iml
+integration_tests/downloads/
+*.iml
 **/Chart.lock
+uploads/

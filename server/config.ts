@@ -22,6 +22,10 @@ export class AgentConfig {
 
 export interface ApiConfig {
   url: string
+  basicAuth?: {
+    user: string
+    pass: string
+  }
   timeout: {
     response: number
     deadline: number
@@ -55,9 +59,9 @@ export default {
         deadline: Number(get('HMPPS_AUTH_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(Number(get('HMPPS_AUTH_TIMEOUT_RESPONSE', 10000))),
-      apiClientId: get('API_CLIENT_ID', 'clientid', requiredInProduction),
+      apiClientId: get('API_CLIENT_ID', 'send-legal-mail-to-prisons', requiredInProduction),
       apiClientSecret: get('API_CLIENT_SECRET', 'clientsecret', requiredInProduction),
-      systemClientId: get('SYSTEM_CLIENT_ID', 'clientid', requiredInProduction),
+      systemClientId: get('SYSTEM_CLIENT_ID', 'send-legal-mail-to-prisons-client', requiredInProduction),
       systemClientSecret: get('SYSTEM_CLIENT_SECRET', 'clientsecret', requiredInProduction),
     },
     tokenVerification: {
@@ -69,6 +73,41 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
+    sendLegalMail: {
+      url: get('SEND_LEGAL_MAIL_API_URL', 'http://localhost:8101', requiredInProduction),
+      timeout: {
+        response: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_RESPONSE', 30000)),
+        deadline: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_DEADLINE', 30000)),
+      },
+      agent: new AgentConfig(),
+    },
+    prisonRegister: {
+      url: get('PRISON_REGISTER_API_URL', 'http://localhost:8101', requiredInProduction),
+      timeout: {
+        response: Number(get('PRISON_REGISTER_API_TIMEOUT_RESPONSE', 30000)),
+        deadline: Number(get('PRISON_REGISTER_API_TIMEOUT_DEADLINE', 30000)),
+      },
+      agent: new AgentConfig(),
+    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
+  checkRule39ContainerId: get('CHECK_RULE39_MAIL_TAG_MANAGER_CONTAINER_ID', null),
+  phaseBannerLink: {
+    mailRoomJourney: get(
+      'MAIL_ROOM_PHASE_BANNER_LINK',
+      'https://send-legal-mail-to-prisons.form.service.justice.gov.uk/',
+    ),
+  },
+  smoketest: {
+    msjSecret: get('APP_SMOKETEST_MSJSECRET', null),
+    lsjSecret: get('APP_SMOKETEST_LSJSECRET', null),
+  },
+  sendLegalMail: {
+    url: get('SEND_LEGAL_MAIL_API_URL', 'http://localhost:8101', requiredInProduction),
+    timeout: {
+      response: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_RESPONSE', 30000)),
+      deadline: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_DEADLINE', 30000)),
+    },
+    agent: new AgentConfig(),
+  },
 }
