@@ -44,6 +44,7 @@ function appSetup(route: Router, production: boolean): Express {
     next()
   })
 
+  // TODO - is this needed?
   // app.use(cookieSession({ keys: [''] }))
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
