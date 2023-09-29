@@ -35,9 +35,8 @@ export default abstract class Page {
   }
 
   runAxe = (): void => {
-    // TODO - figure this out
-    // cy.injectAxe()
-    // cy.checkA11y()
+    cy.injectAxe()
+    cy.checkA11y()
   }
 
   checkContactHelpdeskLink = (): void => {
