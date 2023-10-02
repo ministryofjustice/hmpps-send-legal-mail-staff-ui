@@ -1,7 +1,7 @@
 ---
 generic-service:
   nameOverride: hmpps-send-legal-mail-staff-ui
-  productId: "UNASSIGNED"   # productId for the product that this belongs too, i.e. DPS001, see README.md for details
+  productId: "DPS068"   # productId for the product that this belongs too, i.e. DPS001, see README.md for details
 
   replicaCount: 4
 
@@ -13,7 +13,7 @@ generic-service:
   ingress:
     enabled: true
     host: app-hostname.local    # override per environment
-    tlsSecretName: hmpps-send-legal-mail-staff-ui-cert
+    tlsSecretName: check-rule39-mail-cert
 
   livenessProbe:
     httpGet:
