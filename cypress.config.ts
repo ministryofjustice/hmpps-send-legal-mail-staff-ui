@@ -4,7 +4,6 @@ import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
 import prisonRegister from './integration_tests/mockApis/prisonRegister'
-import state from './integration_tests/support/state'
 import barcode from './integration_tests/mockApis/sendLegalMail/barcode'
 import supportedPrisons from './integration_tests/mockApis/sendLegalMail/supportedPrisons'
 
@@ -46,9 +45,6 @@ export default defineConfig({
         stubCreateBarcodeFailure: barcode.stubCreateBarcodeFailure,
 
         stubGetSupportedPrisons: supportedPrisons.stubGetSupportedPrisons,
-
-        setSmokeTestBarcode: state.setSmokeTestBarcode,
-        getSmokeTestBarcode: state.getSmokeTestBarcode,
 
         stubGetPrisonRegister: prisonRegister.stubGetPrisonRegister,
       })
