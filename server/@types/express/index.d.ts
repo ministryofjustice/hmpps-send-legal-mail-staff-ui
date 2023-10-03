@@ -1,3 +1,5 @@
+import { BarcodeEntryForm } from '../forms'
+
 export default {}
 
 declare module 'express-session' {
@@ -5,6 +7,8 @@ declare module 'express-session' {
   interface SessionData {
     returnTo: string
     nowInMinutes: number
+    barcodeEntryForm: BarcodeEntryForm
+    scannedAtLeastOneBarcode: boolean
   }
 }
 
@@ -18,8 +22,14 @@ export declare global {
 
     interface Request {
       verified?: boolean
-      id: string
       logout(done: (err: unknown) => void): void
+      flash(type: string, message: Array<Record<string, string>>): number
+      flash(message: 'errors'): Array<Record<string, string>>
+      id: string
+    }
+
+    interface Response {
+      renderPDF(view: string, pageData: Record<string, unknown>, options?: Record<string, unknown>): void
     }
   }
 }
