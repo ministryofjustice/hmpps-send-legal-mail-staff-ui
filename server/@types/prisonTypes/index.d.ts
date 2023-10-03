@@ -7,13 +7,4 @@ declare module 'prisonTypes' {
     locality?: string
     postalCode?: string
   }
-
-  export type Recipient = {
-    prisonNumber?: string
-    prisonerName: string
-    prisonerDob?: Date
-    prison: Prison
-    barcodeValue?: string
-    contactId?: number
-  }
 }
