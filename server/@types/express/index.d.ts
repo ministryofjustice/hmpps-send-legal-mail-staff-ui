@@ -1,4 +1,3 @@
-import type { CjsmUserDetails } from 'sendLegalMailApiClient'
 import { BarcodeEntryForm } from '../forms'
 
 export default {}
@@ -10,14 +9,6 @@ declare module 'express-session' {
     nowInMinutes: number
     barcodeEntryForm: BarcodeEntryForm
     scannedAtLeastOneBarcode: boolean
-    barcodeUser: BarcodeUser
-  }
-
-  export interface BarcodeUser {
-    email?: string
-    cjsmDetails?: CjsmUserDetails
-    token?: string
-    tokenValid: boolean
   }
 }
 
