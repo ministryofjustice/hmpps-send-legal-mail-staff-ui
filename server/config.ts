@@ -69,23 +69,6 @@ export default {
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
     },
-    sendLegalMail: {
-      url: get('SEND_LEGAL_MAIL_API_URL', 'http://localhost:8101', requiredInProduction),
-      timeout: {
-        response: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_RESPONSE', 30000)),
-        deadline: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_DEADLINE', 30000)),
-      },
-      agent: new AgentConfig(),
-    },
-    prisonRegister: {
-      url: get('PRISON_REGISTER_API_URL', 'http://localhost:8101', requiredInProduction),
-      timeout: {
-        response: Number(get('PRISON_REGISTER_API_TIMEOUT_RESPONSE', 30000)),
-        deadline: Number(get('PRISON_REGISTER_API_TIMEOUT_DEADLINE', 30000)),
-      },
-      agent: new AgentConfig(),
-    },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
-  checkRule39ContainerId: get('CHECK_RULE39_MAIL_TAG_MANAGER_CONTAINER_ID', null),
 }
