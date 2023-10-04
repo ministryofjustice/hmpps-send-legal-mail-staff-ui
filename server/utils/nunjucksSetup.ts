@@ -3,20 +3,19 @@ import path from 'path'
 import nunjucks from 'nunjucks'
 import express from 'express'
 import { initialiseName } from './utils'
-import { ApplicationInfo } from '../applicationInfo'
 
 const production = process.env.NODE_ENV === 'production'
 
-export default function nunjucksSetup(app: express.Express, applicationInfo: ApplicationInfo): void {
+export default function nunjucksSetup(app: express.Express): void {
   app.set('view engine', 'njk')
 
   app.locals.asset_path = '/assets/'
-  app.locals.applicationName = 'Hmpps Send Legal Mail Staff Ui'
+  app.locals.applicationName = 'Check Rule 39 Mail'
 
   // Cachebusting version string
   if (production) {
-    // Version only changes with new commits
-    app.locals.version = applicationInfo.gitShortHash
+    // Version only changes on reboot
+    app.locals.version = Date.now().toString()
   } else {
     // Version changes every request
     app.use((req, res, next) => {

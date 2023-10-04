@@ -13,19 +13,29 @@ export default defineConfig({
     configFile: 'reporter-config.json',
   },
   taskTimeout: 60000,
+  downloadsFolder: 'integration_tests/downloads',
   e2e: {
-    // We've imported your old cypress plugins here.
-    // You may want to clean this up later by importing these.
     setupNodeEvents(on) {
       on('task', {
         reset: resetStubs,
-        ...auth,
-        ...tokenVerification,
+
+        getSignInUrl: auth.getSignInUrl,
+        stubSignIn: () => auth.stubSignIn([]),
+        stubSignInWithRole_SLM_SCAN_BARCODE: () => auth.stubSignIn(['ROLE_SLM_SCAN_BARCODE']),
+        stubSignInWithRole_SLM_ADMIN: () => auth.stubSignIn(['ROLE_SLM_ADMIN']),
+
+        stubAuthUser: auth.stubUser,
+        stubAuthPing: auth.stubPing,
+        stubAuthToken: auth.stubToken,
+
+        stubTokenVerificationPing: tokenVerification.stubTokenVerificationPing,
+        stubVerifyToken: tokenVerification.stubVerifyToken,
       })
     },
     baseUrl: 'http://localhost:3007',
     excludeSpecPattern: '**/!(*.cy).ts',
-    specPattern: 'integration_tests/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: 'integration_tests/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'integration_tests/support/index.ts',
+    experimentalRunAllSpecs: true,
   },
 })

@@ -5,15 +5,34 @@ export default abstract class Page {
     return new constructor()
   }
 
-  constructor(private readonly title: string) {
+  protected constructor(
+    readonly pageId: string,
+    private readonly options: { axeTest?: boolean } = {
+      axeTest: true,
+    },
+  ) {
     this.checkOnPage()
   }
 
-  checkOnPage(): void {
-    cy.get('h1').contains(this.title)
+  checkOnPage = (): void => {
+    cy.get('#pageId').should('have.attr', 'data-qa').should('equal', this.pageId)
   }
 
   signOut = (): PageElement => cy.get('[data-qa=signOut]')
 
   manageDetails = (): PageElement => cy.get('[data-qa=manageDetails]')
+
+  userName = (): PageElement => cy.get('[data-qa=header-user-name]')
+
+  hasNoErrors = (): void => {
+    cy.get('.govuk-error-summary__list').should('not.exist')
+  }
+
+  hasMainHeading = (expectedHeading: string): void => {
+    cy.get('h1').should('contain.text', expectedHeading)
+  }
+
+  hasHeaderTitle = (expectedTitle: string): void => {
+    cy.get('a[data-qa="header-text').should('contain.text', expectedTitle)
+  }
 }
