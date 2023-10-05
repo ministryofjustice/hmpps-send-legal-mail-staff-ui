@@ -15,10 +15,9 @@ import setUpStaticResources from './middleware/setUpStaticResources'
 import setUpWebRequestParsing from './middleware/setupRequestParsing'
 import setUpWebSecurity from './middleware/setUpWebSecurity'
 import setUpWebSession from './middleware/setUpWebSession'
+
 import routes from './routes'
 import type { Services } from './services'
-import standardRouter from './routes/standardRouter'
-import populateCurrentUserRoles from './middleware/populateCurrentUserRoles'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -33,18 +32,14 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpWebSession())
   app.use(setUpWebRequestParsing())
   app.use(setUpStaticResources())
-  nunjucksSetup(app)
+  nunjucksSetup(app, services.applicationInfo)
   app.use(setUpAuthentication())
   app.use(authorisationMiddleware())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
-  app.use(populateCurrentUserRoles())
 
-  app.use(routes(standardRouter(services.userService)))
+  app.use(routes(services))
 
-  // authenticated by passport / HMPPS Auth
-  app.use('/', setUpAuthentication())
-  app.use('/', authorisationMiddleware(['ROLE_SLM_SCAN_BARCODE', 'ROLE_SLM_ADMIN']))
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(process.env.NODE_ENV === 'production'))
 
