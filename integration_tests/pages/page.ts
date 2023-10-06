@@ -12,10 +12,18 @@ export default abstract class Page {
     },
   ) {
     this.checkOnPage()
+    if (options.axeTest) {
+      this.runAxe()
+    }
   }
 
   checkOnPage = (): void => {
     cy.get('#pageId').should('have.attr', 'data-qa').should('equal', this.pageId)
+  }
+
+  runAxe = (): void => {
+    cy.injectAxe()
+    cy.checkA11y()
   }
 
   signOut = (): PageElement => cy.get('[data-qa=signOut]')

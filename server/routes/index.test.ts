@@ -1,5 +1,6 @@
 import type { Express } from 'express'
 import request from 'supertest'
+import { JSDOM } from 'jsdom'
 import { appWithAllRoutes } from './testutils/appSetup'
 
 let app: Express
@@ -19,6 +20,10 @@ describe('GET /', () => {
       .expect('Content-Type', /html/)
       .expect(res => {
         expect(res.text).toContain('Check Rule 39 Mail')
+
+        const doc = new JSDOM(res.text).window.document
+        const link = doc.querySelector('a[href="/scan-barcode"]')
+        expect(link.textContent).toContain('Check Rule 39 mail')
       })
   })
 })
