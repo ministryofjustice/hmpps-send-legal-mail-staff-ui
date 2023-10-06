@@ -1,4 +1,5 @@
 {% extends "layout.njk" %}
+{% from "../components/card/card.njk" import card %}
 
 {% set pageTitle = applicationName + " - Home" %}
 {% set pageId = 'index-page' %}
@@ -12,5 +13,23 @@
         </div>
     </div>
 
+    <div class="homepage-content">
+      <div class="govuk-width-container">
+        <ul class="govuk-grid-row card-group">
+          {% for tile in tiles %}
+            <li class="govuk-grid-column-one-third card-group__item">
+              {{ card({
+                "href": tile.href,
+                "clickable": "true",
+                "heading": tile.heading,
+                "description": tile.description,
+                "id": tile.id
+              }) }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </section>
 
 {% endblock %}

@@ -9,23 +9,38 @@ import errorHandler from '../../errorHandler'
 import * as auth from '../../authentication/auth'
 import type { Services } from '../../services'
 import type { ApplicationInfo } from '../../applicationInfo'
+import UserService from '../../services/userService'
+import setUpCurrentUser from '../../middleware/setUpCurrentUser'
+
+export const user = {
+  name: 'john smith',
+  firstName: 'john',
+  lastName: 'smith',
+  username: 'user1',
+  displayName: 'John Smith',
+  activeCaseLoadId: 'BXI',
+  authSource: 'NOMIS',
+  token: 'token1',
+}
+
+class MockUserService extends UserService {
+  constructor() {
+    super(undefined)
+  }
+
+  async getUser(token: string) {
+    return {
+      token,
+      ...user,
+    }
+  }
+}
 
 const testAppInfo: ApplicationInfo = {
   applicationName: 'test',
   buildNumber: '1',
   gitRef: 'long ref',
   gitShortHash: 'short ref',
-}
-
-export const user = {
-  firstName: 'first',
-  lastName: 'last',
-  userId: 'id',
-  token: 'token',
-  username: 'user1',
-  displayName: 'First Last',
-  activeCaseLoadId: 'MDI',
-  authSource: 'NOMIS',
 }
 
 export const flashProvider = jest.fn()
@@ -46,6 +61,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
+  app.use(setUpCurrentUser(services))
   app.use(routes(services))
   app.use((req, res, next) => next(createError(404, 'Not found')))
   app.use(errorHandler(production))
@@ -69,6 +85,10 @@ export function appWithAllRoutes({
     next()
   }
 
+  // eslint-disable-next-line no-param-reassign
+  services = {
+    userService: new MockUserService(),
+  }
   return appSetup(services as Services, production, userSupplier)
 }
 
