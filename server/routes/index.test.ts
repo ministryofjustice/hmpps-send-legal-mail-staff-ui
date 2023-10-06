@@ -13,12 +13,12 @@ afterEach(() => {
 })
 
 describe('GET /', () => {
-  it('should render index page', () => {
+  it(`should render index page with 'Check Rule 39 mail' tile`, () => {
     return request(app)
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('This site is under construction...')
+        expect(res.text).toContain('Check Rule 39 Mail')
       })
   })
 })

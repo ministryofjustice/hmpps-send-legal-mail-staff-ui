@@ -4,12 +4,12 @@ import { Response } from 'superagent'
 import { stubFor, getMatchingRequests } from './wiremock'
 import tokenVerification from './tokenVerification'
 
-const createToken = () => {
+const createToken = (authorities: string[]) => {
   const payload = {
     user_name: 'USER1',
     scope: ['read'],
     auth_source: 'nomis',
-    authorities: [],
+    authorities,
     jti: '83b50a10-cca6-41db-985f-e87efb303ddb',
     client_id: 'clientid',
   }
@@ -61,7 +61,7 @@ const redirect = () =>
         'Content-Type': 'text/html',
         Location: 'http://localhost:3007/sign-in/callback?code=codexxxx&state=stateyyyy',
       },
-      body: '<html><body>SignIn page<h1>Sign in</h1></body></html>',
+      body: '<html><head><title>SignIn page</title></head><body><h1>Sign in</h1><span class="govuk-visually-hidden" id="pageId" data-qa="sign-in"></span></body></html>',
     },
   })
 
@@ -76,7 +76,7 @@ const signOut = () =>
       headers: {
         'Content-Type': 'text/html',
       },
-      body: '<html><body>SignIn page<h1>Sign in</h1></body></html>',
+      body: '<html><head><title>SignIn page</title></head><body><h1>Sign in</h1><span class="govuk-visually-hidden" id="pageId" data-qa="sign-in"></span></body></html>',
     },
   })
 
@@ -91,11 +91,11 @@ const manageDetails = () =>
       headers: {
         'Content-Type': 'text/html',
       },
-      body: '<html><body><h1>Your account details</h1></body></html>',
+      body: '<html><body><h1>Your account details</h1><span class="govuk-visually-hidden" id="pageId" data-qa="account-details"></span></body></html>',
     },
   })
 
-const token = () =>
+const token = (authorities: string[]) =>
   stubFor({
     request: {
       method: 'POST',
@@ -108,7 +108,7 @@ const token = () =>
         Location: 'http://localhost:3007/sign-in/callback?code=codexxxx&state=stateyyyy',
       },
       jsonBody: {
-        access_token: createToken(),
+        access_token: createToken(authorities),
         token_type: 'bearer',
         user_name: 'USER1',
         expires_in: 599,
@@ -118,7 +118,7 @@ const token = () =>
     },
   })
 
-const stubUser = (name: string) =>
+const stubUser = (name: string = 'John Smith') =>
   stubFor({
     request: {
       method: 'GET',
@@ -130,10 +130,14 @@ const stubUser = (name: string) =>
         'Content-Type': 'application/json;charset=UTF-8',
       },
       jsonBody: {
+        activeCaseLoadId: 'MDI',
+        authSource: 'nomis',
         staffId: 231232,
+        userId: 231232,
         username: 'USER1',
         active: true,
         name,
+        uuid: '5105a589-75b3-4ca0-9433-b96228c1c8f3',
       },
     },
   })
@@ -155,8 +159,16 @@ const stubUserRoles = () =>
 
 export default {
   getSignInUrl,
-  stubAuthPing: ping,
-  stubSignIn: (): Promise<[Response, Response, Response, Response, Response, Response]> =>
-    Promise.all([favicon(), redirect(), signOut(), manageDetails(), token(), tokenVerification.stubVerifyToken()]),
-  stubAuthUser: (name = 'john smith'): Promise<[Response, Response]> => Promise.all([stubUser(name), stubUserRoles()]),
+  stubPing: (): Promise<[Response, Response]> => Promise.all([ping(), tokenVerification.stubTokenVerificationPing()]),
+  stubSignIn: (authorities: string[]): Promise<[Response, Response, Response, Response, Response, Response]> =>
+    Promise.all([
+      favicon(),
+      redirect(),
+      signOut(),
+      manageDetails(),
+      token(authorities),
+      tokenVerification.stubVerifyToken(true),
+    ]),
+  stubUser: (name: string): Promise<[Response, Response]> => Promise.all([stubUser(name), stubUserRoles()]),
+  stubToken: (): Promise<Response> => token([]),
 }

@@ -10,23 +10,36 @@
   <script src="/assets/js/html5shiv-3.7.3.min.js"></script>
   <![endif]-->
 
-  <script src="/assets/js/jquery.min.js"></script> 
+  <script src="/assets/js/jquery.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
           integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
           nonce="{{ cspNonce }}"
           crossorigin="anonymous"></script>
   <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" nonce="{{ cspNonce }}" crossorigin>
+  <script src="/assets/js/accessible-autocomplete.min.js"></script>
+  <link href="/assets/stylesheets/accessible-autocomplete.min.css" rel="stylesheet"/>
+
+  <script src="/assets/js/page-enhancements.js"></script>
 
 {% endblock %}
 
 {% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
 
 {% block header %}
-  {% include "./header.njk" %}
+  {% include "partials/header.njk" %}
 {% endblock %}
 
-{% block bodyStart %}
+{% block main %}
+  <div class="govuk-width-container {{ containerClasses }}">
+      <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
+      <span class="govuk-visually-hidden" id="pageId" data-qa="{{ pageId }}"></span>
+
+    <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
+      {% block content %}{% endblock %}
+    </main>
+  </div>
 {% endblock %}
+
 
 {% block bodyEnd %}
   {# Run JavaScript at end of the
@@ -34,4 +47,5 @@
   <script src="/assets/govuk/all.js"></script>
   <script src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
+  {% block pageScripts %}{% endblock %}
 {% endblock %}
