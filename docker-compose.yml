@@ -16,13 +16,29 @@ services:
     networks:
       - hmpps
     container_name: hmpps-auth
+    depends_on: [nomis-user-roles-api]
     ports:
       - "9090:8080"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/auth/health"]
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_PROFILES_ACTIVE=dev,nomis
       - APPLICATION_AUTHENTICATION_UI_ALLOWLIST=0.0.0.0/0
+      - NOMIS_ENDPOINT_URL=http://nomis-user-roles-api:8080
+
+  nomis-user-roles-api:
+    image: quay.io/hmpps/nomis-user-roles-api:latest
+    networks:
+      - hmpps
+    container_name: nomis-user-roles-api
+    ports:
+      - "8102:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ping"]
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=dev
+      - API_BASE_URL_OAUTH=http://hmpps-auth:8080/auth
 
   app:
     build: .
@@ -35,6 +51,12 @@ services:
       - REDIS_HOST=redis
       - HMPPS_AUTH_EXTERNAL_URL=http://localhost:9090/auth
       - HMPPS_AUTH_URL=http://hmpps-auth:8080/auth
+      - TOKEN_VERIFICATION_API_URL=https://token-verification-api-dev.prison.service.justice.gov.uk
+      - TOKEN_VERIFICATION_ENABLED=false
+      - NODE_ENV=development
+      - PORT=3000
+      - SEND_LEGAL_MAIL_API_URL=http://host.docker.internal:8080
+      - PRISON_REGISTER_API_URL=https://prison-register-dev.hmpps.service.justice.gov.uk
       # These will need to match new creds in the seed auth service auth
       - API_CLIENT_ID=client-id
       - API_CLIENT_SECRET=client-secret
