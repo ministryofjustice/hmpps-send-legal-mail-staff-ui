@@ -91,53 +91,6 @@ window.pageEnhancements = (($, document) => {
     $('#scan-barcode-form #barcode').trigger('focus')
   }
 
-  const extractCsrfFieldAsKeyValuePairFromForm = form => {
-    return form
-      .serializeArray()
-      .filter(formField => formField.name === '_csrf')
-      .map(formField => {
-        return `${formField.name}=${formField.value}`
-      })
-  }
-
-  const submitCookiePreferencesFormViaAjax = () => {
-    $('#cookiePreferencesForm button[type=submit]').on('click', function (event) {
-      event.preventDefault()
-      const form = $(this).closest('form')
-      const csrfQueryString = extractCsrfFieldAsKeyValuePairFromForm(form)
-      const formAction = `${form.attr('action')}?${csrfQueryString}`
-      const data = {}
-      data[this.name] = this.value
-
-      $.ajax(formAction, { contentType: 'application/json', method: 'POST', data: JSON.stringify(data) }).done(
-        response => {
-          const returnedPartial = response.partial
-          form.after(returnedPartial)
-          // setup the new content just inseted into the DOM to be submitted via ajax
-          submitCookiePreferenceConfirmationFormViaAjax()
-          form.remove()
-          // Use browser history API to change to URL to add the query string param (which would otherwise be set server side in a non-ajax request)
-          const urlWithQuerystringParam = window.location.pathname + '?showCookieConfirmation=true'
-          history.pushState(null, '', urlWithQuerystringParam)
-        },
-      )
-    })
-  }
-
-  const submitCookiePreferenceConfirmationFormViaAjax = () => {
-    $('#cookiePreferenceConfirmationForm button[type=submit]').on('click', function (event) {
-      event.preventDefault()
-      const form = $(this).closest('form')
-      const csrfQueryString = extractCsrfFieldAsKeyValuePairFromForm(form)
-      const formAction = `${form.attr('action')}?${csrfQueryString}`
-      $.ajax(formAction, { contentType: 'application/json', method: 'POST' })
-      form.remove()
-      // Use browser history API to change to URL to remove the query string param (which would otherwise be set server side in a non-ajax request)
-      const urlWithoutQuerystringParam = window.location.pathname
-      history.pushState(null, '', urlWithoutQuerystringParam)
-    })
-  }
-
   const enableClickableCards = () => {
     document.querySelectorAll('.card--clickable').forEach(card => {
       null !== card.querySelector('a') &&
@@ -153,8 +106,6 @@ window.pageEnhancements = (($, document) => {
         convertPrisonDropdownToAutoComplete()
         enableCopyBarcodeButton()
         autoFocusBarcodeField()
-        submitCookiePreferencesFormViaAjax()
-        submitCookiePreferenceConfirmationFormViaAjax()
         enableClickableCards()
       })
     },
