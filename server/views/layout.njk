@@ -15,7 +15,12 @@
           integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
           nonce="{{ cspNonce }}"
           crossorigin="anonymous"></script>
-  <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" nonce="{{ cspNonce }}" crossorigin>
+  <link href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" rel="stylesheet" crossorigin>
+
+
+<script src="/assets/js/jquery.inputmask.js"></script>
+<script src="/assets/js/inputmask.binding.js"></script>
+
   <script src="/assets/js/accessible-autocomplete.min.js"></script>
   <link href="/assets/stylesheets/accessible-autocomplete.min.css" rel="stylesheet"/>
 
@@ -23,7 +28,7 @@
 
 {% endblock %}
 
-{% block pageTitle %}{{pageTitle | default(applicationName)}}{% endblock %}
+{% block pageTitle %}{{pageTitle | pageTitleInError(errors) | default(applicationName)}}{% endblock %}
 
 {% block header %}
   {% include "partials/header.njk" %}
