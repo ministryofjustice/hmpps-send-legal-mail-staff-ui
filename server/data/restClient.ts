@@ -5,7 +5,6 @@ import Agent, { HttpsAgent } from 'agentkeepalive'
 import logger from '../../logger'
 import sanitiseError from '../sanitisedError'
 import { ApiConfig } from '../config'
-import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
 
 interface GetRequest {
   path?: string
