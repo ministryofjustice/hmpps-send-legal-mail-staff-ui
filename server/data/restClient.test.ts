@@ -56,6 +56,23 @@ describe('POST', () => {
     })
   })
 
+  it('Should not retry by default', async () => {
+    nock('http://localhost:8080', {
+      reqheaders: { authorization: 'Bearer token-1' },
+    })
+      .post('/api/test')
+      .reply(500)
+
+    await expect(
+      restClient.post({
+        path: '/test',
+        headers: { header1: 'headerValue1' },
+      }),
+    ).rejects.toThrow('Internal Server Error')
+
+    expect(nock.isDone()).toBe(true)
+  })
+
   it('retries if configured to do so', async () => {
     nock('http://localhost:8080', {
       reqheaders: { authorization: 'Bearer token-1' },
@@ -71,6 +88,7 @@ describe('POST', () => {
       restClient.post({
         path: '/test',
         headers: { header1: 'headerValue1' },
+        retry: true,
       }),
     ).rejects.toThrow('Internal Server Error')
 
@@ -91,6 +109,7 @@ describe('POST', () => {
     const result = await restClient.post({
       path: '/test',
       headers: { header1: 'headerValue1' },
+      retry: true,
     })
 
     expect(result).toStrictEqual({ success: true })

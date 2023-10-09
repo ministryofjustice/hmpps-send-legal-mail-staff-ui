@@ -72,16 +72,16 @@ export default {
     sendLegalMail: {
       url: get('SEND_LEGAL_MAIL_API_URL', 'http://localhost:8101', requiredInProduction),
       timeout: {
-        response: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_RESPONSE', 30000)),
-        deadline: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_DEADLINE', 30000)),
+        response: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(),
     },
     prisonRegister: {
       url: get('PRISON_REGISTER_API_URL', 'http://localhost:8101', requiredInProduction),
       timeout: {
-        response: Number(get('PRISON_REGISTER_API_TIMEOUT_RESPONSE', 30000)),
-        deadline: Number(get('PRISON_REGISTER_API_TIMEOUT_DEADLINE', 30000)),
+        response: Number(get('PRISON_REGISTER_API_TIMEOUT_RESPONSE', 10000)),
+        deadline: Number(get('PRISON_REGISTER_API_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(),
     },

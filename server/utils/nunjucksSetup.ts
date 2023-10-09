@@ -2,7 +2,6 @@
 import path from 'path'
 import nunjucks, { Environment } from 'nunjucks'
 import express from 'express'
-import { initialiseName } from './utils'
 import initialiseNameFilter from '../filters/initialiseNameFilter'
 import findErrorFilter from '../filters/findErrorFilter'
 import calculateDaysSinceCreationFilter from '../filters/calculateDaysSinceCreationFilter'
@@ -30,21 +29,6 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
     })
   }
 
-  const njkEnv = nunjucks.configure(
-    [
-      path.join(__dirname, '../../server/views'),
-      'node_modules/govuk-frontend/',
-      'node_modules/govuk-frontend/components/',
-      'node_modules/@ministryofjustice/frontend/',
-      'node_modules/@ministryofjustice/frontend/moj/components/',
-    ],
-    {
-      autoescape: true,
-      express: app,
-    },
-  )
-
-  njkEnv.addFilter('initialiseName', initialiseName)
   registerNunjucks(app)
 }
 
@@ -60,6 +44,8 @@ export function registerNunjucks(app?: express.Express): Environment {
     {
       autoescape: true,
       express: app,
+      trimBlocks: true,
+      lstripBlocks: true,
     },
   )
 
