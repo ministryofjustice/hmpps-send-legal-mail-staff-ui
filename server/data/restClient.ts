@@ -60,28 +60,7 @@ export default class RestClient {
   }
 
   async get({ path = null, query = '', headers = {}, responseType = '', raw = false }: GetRequest): Promise<unknown> {
-    logger.info(`Get using user credentials: calling ${this.name}: ${path} ${query}`)
-    try {
-      const result = await superagent
-        .get(`${this.apiUrl()}${path}`)
-        .agent(this.agent)
-        .use(restClientMetricsMiddleware)
-        .retry(2, (err, res) => {
-          if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
-          return undefined // retry handler only for logging retries, not to influence retry logic
-        })
-        .query(query)
-        .auth(this.token, { type: 'bearer' })
-        .set(headers)
-        .responseType(responseType)
-        .timeout(this.timeoutConfig())
-
-      return raw ? result : result.body
-    } catch (error) {
-      const sanitisedError = sanitiseError(error)
-      logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'GET'`)
-      throw sanitisedError
-    }
+    return this.processRequest({ path, headers, responseType, query, raw, method: 'get' })
   }
 
   async post({
@@ -141,7 +120,10 @@ export default class RestClient {
       request.query(query)
     }
 
-    request.auth(this.token, { type: 'bearer' })
+    if (this.token) {
+      request.auth(this.token, { type: 'bearer' })
+    }
+
     if (this.sourceIp) {
       request.set('x-slm-client-ip', this.sourceIp)
     }
