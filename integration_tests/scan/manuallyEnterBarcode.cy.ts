@@ -7,6 +7,7 @@ context('Manual Barcode Entry Page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubAuthUser')
+    cy.task('stubGetPrisonRegister')
   })
 
   it('Logged in user with SLM_SCAN_BARCODE role can navigate to manual barcode entry page', () => {
