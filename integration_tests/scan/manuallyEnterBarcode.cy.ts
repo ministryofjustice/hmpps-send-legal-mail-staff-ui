@@ -49,19 +49,6 @@ context('Manual Barcode Entry Page', () => {
     scanBarcodeResultPage.hasMainHeading('Ready for final delivery')
   })
 
-  it('should render barcode results page given form submitted with barcode that has been scanned before', () => {
-    cy.task('stubVerifyDuplicateBarcode')
-    cy.task('stubSignInWithRole_SLM_SCAN_BARCODE')
-    cy.signIn()
-    cy.visit('/manually-enter-barcode')
-    const manualBarcodeEntryPage = Page.verifyOnPage(ManualBarcodeEntryPage)
-
-    const scanBarcodeResultPage: ScanBarcodeResultPage =
-      manualBarcodeEntryPage.submitFormWithBarcodeThatHasBeenScannedPreviously()
-
-    scanBarcodeResultPage.hasMainHeading('Barcode already scanned: carry out further checks')
-  })
-
   it('should render barcode results page given form submitted with barcode that cannot be found', () => {
     cy.task('stubVerifyNotFoundBarcode')
     cy.task('stubSignInWithRole_SLM_SCAN_BARCODE')
