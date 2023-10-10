@@ -19,6 +19,7 @@ import setUpWebSession from './middleware/setUpWebSession'
 import routes from './routes'
 import type { Services } from './services'
 import setupScanBarcode from './middleware/scan/setupScanBarcode'
+import setupSupportedPrisons from './middleware/prisons/setupSupportedPrisons'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -39,6 +40,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use('/', setupScanBarcode(services.scanBarcodeService, services.prisonService, services.appInsightsService))
+  app.use('/supported-prisons', setupSupportedPrisons(services.prisonService))
   app.use(routes(services))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))

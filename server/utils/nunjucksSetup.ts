@@ -8,6 +8,7 @@ import calculateDaysSinceCreationFilter from '../filters/calculateDaysSinceCreat
 import pageTitleInErrorFilter from '../filters/pageTitleInErrorFilter'
 import formatDateFilter from '../filters/formatDateFilter'
 import { ApplicationInfo } from '../applicationInfo'
+import prisonsTableRowsFilter from '../filters/prisonsTableRowsFilter'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -54,12 +55,7 @@ export function registerNunjucks(app?: express.Express): Environment {
   njkEnv.addFilter('formatDate', formatDateFilter)
   njkEnv.addFilter('calculateDaysSinceCreation', calculateDaysSinceCreationFilter)
   njkEnv.addFilter('pageTitleInError', pageTitleInErrorFilter)
-
-  njkEnv.addGlobal('contactHelpdeskBannerExcludedOnPages', [
-    'auth-error',
-    'contact-helpdesk',
-    'contact-helpdesk-submitted',
-  ])
+  njkEnv.addFilter('prisonTableRowsFilter', prisonsTableRowsFilter)
 
   return njkEnv
 }
