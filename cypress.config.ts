@@ -2,6 +2,9 @@ import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
+import prisonRegister from './integration_tests/mockApis/sendLegalMail/prisonRegister'
+import barcode from './integration_tests/mockApis/sendLegalMail/barcode'
+import supportedPrisons from './integration_tests/mockApis/supportedPrisons'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -30,6 +33,19 @@ export default defineConfig({
 
         stubTokenVerificationPing: tokenVerification.stubTokenVerificationPing,
         stubVerifyToken: tokenVerification.stubVerifyToken,
+
+        stubVerifyValidBarcode: barcode.stubVerifyValidBarcode,
+        stubVerifyDuplicateBarcode: barcode.stubVerifyDuplicateBarcode,
+        stubVerifyRandomCheckBarcode: barcode.stubVerifyRandomCheckBarcode,
+        stubVerifyExpiredBarcode: barcode.stubVerifyExpiredBarcode,
+        stubVerifyNotFoundBarcode: barcode.stubVerifyNotFoundBarcode,
+        stubMoreChecksRequestedForBarcode: barcode.stubMoreChecksRequestedForBarcode,
+        stubCreateBarcode: barcode.stubCreateBarcode,
+        stubCreateBarcodeFailure: barcode.stubCreateBarcodeFailure,
+
+        stubGetSupportedPrisons: supportedPrisons.stubGetSupportedPrisons,
+
+        stubGetPrisonRegister: prisonRegister.stubGetPrisonRegister,
       })
     },
     baseUrl: 'http://localhost:3007',
