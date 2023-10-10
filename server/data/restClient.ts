@@ -1,11 +1,9 @@
-import { Readable } from 'stream'
 import superagent from 'superagent'
 import Agent, { HttpsAgent } from 'agentkeepalive'
 
 import logger from '../../logger'
 import sanitiseError from '../sanitisedError'
 import { ApiConfig } from '../config'
-import type { UnsanitisedError } from '../sanitisedError'
 import { restClientMetricsMiddleware } from './restClientMetricsMiddleware'
 
 interface GetRequest {
@@ -25,10 +23,21 @@ interface PostRequest {
   retry?: boolean
 }
 
-interface StreamRequest {
+interface PutRequest {
   path?: string
   headers?: Record<string, string>
-  errorLogger?: (e: UnsanitisedError) => void
+  responseType?: string
+  data?: Record<string, unknown>
+  raw?: boolean
+  retry?: boolean
+}
+
+interface DeleteRequest {
+  path?: string
+  query?: string
+  headers?: Record<string, string>
+  responseType?: string
+  raw?: boolean
 }
 
 export default class RestClient {
@@ -37,7 +46,8 @@ export default class RestClient {
   constructor(
     private readonly name: string,
     private readonly config: ApiConfig,
-    private readonly token: string,
+    private readonly token: string = undefined,
+    private readonly sourceIp: string = undefined,
   ) {
     this.agent = config.url.startsWith('https') ? new HttpsAgent(config.agent) : new Agent(config.agent)
   }
@@ -50,11 +60,12 @@ export default class RestClient {
     return this.config.timeout
   }
 
-  async get({ path = null, query = '', headers = {}, responseType = '', raw = false }: GetRequest): Promise<unknown> {
+  async get<T>({ path = null, query = '', headers = {}, responseType = '', raw = false }: GetRequest = {}): Promise<T> {
     logger.info(`Get using user credentials: calling ${this.name}: ${path} ${query}`)
     try {
-      const result = await superagent
-        .get(`${this.apiUrl()}${path}`)
+      const request = superagent.get(`${this.apiUrl()}${path}`)
+
+      request
         .agent(this.agent)
         .use(restClientMetricsMiddleware)
         .retry(2, (err, res) => {
@@ -62,11 +73,15 @@ export default class RestClient {
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
         .query(query)
-        .auth(this.token, { type: 'bearer' })
         .set(headers)
         .responseType(responseType)
         .timeout(this.timeoutConfig())
 
+      if (this.token) {
+        request.auth(this.token, { type: 'bearer' })
+      }
+
+      const result = await request
       return raw ? result : result.body
     } catch (error) {
       const sanitisedError = sanitiseError(error)
@@ -75,18 +90,19 @@ export default class RestClient {
     }
   }
 
-  async post({
+  async post<T>({
     path = null,
     headers = {},
     responseType = '',
     data = {},
     raw = false,
     retry = false,
-  }: PostRequest = {}): Promise<unknown> {
+  }: PostRequest = {}): Promise<T> {
     logger.info(`Post using user credentials: calling ${this.name}: ${path}`)
     try {
-      const result = await superagent
-        .post(`${this.apiUrl()}${path}`)
+      const request = superagent.post(`${this.apiUrl()}${path}`)
+
+      request
         .send(data)
         .agent(this.agent)
         .use(restClientMetricsMiddleware)
@@ -102,6 +118,11 @@ export default class RestClient {
         .responseType(responseType)
         .timeout(this.timeoutConfig())
 
+      if (this.sourceIp) {
+        request.set('x-slm-client-ip', this.sourceIp)
+      }
+
+      const result = await request
       return raw ? result : result.body
     } catch (error) {
       const sanitisedError = sanitiseError(error)
@@ -110,33 +131,75 @@ export default class RestClient {
     }
   }
 
-  async stream({ path = null, headers = {} }: StreamRequest = {}): Promise<unknown> {
-    logger.info(`Get using user credentials: calling ${this.name}: ${path}`)
-    return new Promise((resolve, reject) => {
-      superagent
-        .get(`${this.apiUrl()}${path}`)
+  async put<T>({
+    path = null,
+    headers = {},
+    responseType = '',
+    data = {},
+    raw = false,
+    retry = false,
+  }: PutRequest = {}): Promise<T> {
+    logger.info(`Put using user credentials: calling ${this.name}: ${path}`)
+    try {
+      const request = superagent.put(`${this.apiUrl()}${path}`)
+
+      request
+        .send(data)
         .agent(this.agent)
+        .use(restClientMetricsMiddleware)
+        .retry(2, (err, res) => {
+          if (retry === false) {
+            return false
+          }
+          if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
+          return undefined // retry handler only for logging retries, not to influence retry logic
+        })
         .auth(this.token, { type: 'bearer' })
+        .set(headers)
+        .responseType(responseType)
+        .timeout(this.timeoutConfig())
+
+      if (this.sourceIp) {
+        request.set('x-slm-client-ip', this.sourceIp)
+      }
+
+      const result = await request
+      return raw ? result : result.body
+    } catch (error) {
+      const sanitisedError = sanitiseError(error)
+      logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: 'PUT'`)
+      throw sanitisedError
+    }
+  }
+
+  async delete<T>({
+    path = null,
+    query = '',
+    headers = {},
+    responseType = '',
+    raw = false,
+  }: DeleteRequest = {}): Promise<T> {
+    logger.info(`Delete using user credentials: calling ${this.name}: ${path} ${query}`)
+    try {
+      const result = await superagent
+        .delete(`${this.apiUrl()}${path}`)
+        .agent(this.agent)
         .use(restClientMetricsMiddleware)
         .retry(2, (err, res) => {
           if (err) logger.info(`Retry handler found API error with ${err.code} ${err.message}`)
           return undefined // retry handler only for logging retries, not to influence retry logic
         })
-        .timeout(this.timeoutConfig())
+        .query(query)
+        .auth(this.token, { type: 'bearer' })
         .set(headers)
-        .end((error, response) => {
-          if (error) {
-            logger.warn(sanitiseError(error), `Error calling ${this.name}`)
-            reject(error)
-          } else if (response) {
-            const s = new Readable()
-            // eslint-disable-next-line no-underscore-dangle,@typescript-eslint/no-empty-function
-            s._read = () => {}
-            s.push(response.body)
-            s.push(null)
-            resolve(s)
-          }
-        })
-    })
+        .responseType(responseType)
+        .timeout(this.timeoutConfig())
+
+      return raw ? result : result.body
+    } catch (error) {
+      const sanitisedError = sanitiseError(error)
+      logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'DELETE'`)
+      throw sanitisedError
+    }
   }
 }

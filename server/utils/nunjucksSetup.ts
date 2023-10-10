@@ -1,8 +1,12 @@
 /* eslint-disable no-param-reassign */
 import path from 'path'
-import nunjucks from 'nunjucks'
+import nunjucks, { Environment } from 'nunjucks'
 import express from 'express'
-import { initialiseName } from './utils'
+import initialiseNameFilter from '../filters/initialiseNameFilter'
+import findErrorFilter from '../filters/findErrorFilter'
+import calculateDaysSinceCreationFilter from '../filters/calculateDaysSinceCreationFilter'
+import pageTitleInErrorFilter from '../filters/pageTitleInErrorFilter'
+import formatDateFilter from '../filters/formatDateFilter'
 import { ApplicationInfo } from '../applicationInfo'
 
 const production = process.env.NODE_ENV === 'production'
@@ -25,6 +29,10 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
     })
   }
 
+  registerNunjucks(app)
+}
+
+export function registerNunjucks(app?: express.Express): Environment {
   const njkEnv = nunjucks.configure(
     [
       path.join(__dirname, '../../server/views'),
@@ -36,8 +44,22 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
     {
       autoescape: true,
       express: app,
+      trimBlocks: true,
+      lstripBlocks: true,
     },
   )
 
-  njkEnv.addFilter('initialiseName', initialiseName)
+  njkEnv.addFilter('initialiseName', initialiseNameFilter)
+  njkEnv.addFilter('findError', findErrorFilter)
+  njkEnv.addFilter('formatDate', formatDateFilter)
+  njkEnv.addFilter('calculateDaysSinceCreation', calculateDaysSinceCreationFilter)
+  njkEnv.addFilter('pageTitleInError', pageTitleInErrorFilter)
+
+  njkEnv.addGlobal('contactHelpdeskBannerExcludedOnPages', [
+    'auth-error',
+    'contact-helpdesk',
+    'contact-helpdesk-submitted',
+  ])
+
+  return njkEnv
 }
