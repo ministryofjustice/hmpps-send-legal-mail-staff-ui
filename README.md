@@ -1,3 +1,55 @@
+# hmpps-send-legal-mail-staff-ui
+
+## About
+Typescript application for prison staff to allow scanning barcodes for legal mail (aka rule39 mail).
+
+### Team
+The project is currently maintained by `book-a-prison-visit` team.
+
+### Health
+The application has a health endpoint found at `/health` which indicates if the app is running and is healthy.
+
+### Ping
+The application has a ping endpoint found at `/ping` which indicates that the app is responding to requests.
+
+### Maintenance pages
+TBD.
+
+### Build
+<em>Requires membership of Github team `book-a-prison-visit`</em>
+
+The application is built on [CircleCI](https://app.circleci.com/pipelines/github/ministryofjustice/hmpps-send-legal-mail-staff-ui).
+
+### Versions
+The application version currently running can be found on the `/health` endpoint at node `build.buildNumber`. The format of the version number is `YYY-MM-DD.ccc.gggggg` where `ccc` is the Circle job number and `gggggg` is the git commit reference.
+
+### Rolling back the application
+
+* <em>Requires CLI tools `kubectl` and `helm`</em>
+* <em>Requires access to Cloud Platform Kubernetes `live` cluster</em>
+* <em>Requires membership of Github team `book-a-prison-visit`</em>
+
+For example in the dev environment:
+1. Set the Kube context with command `kubectl config use-context live.cloud-platform.service.justice.gov.uk`
+2. Set the Kube namespace with command `kubectl config set-context --current --namespace send-legal-mail-to-prisons-dev`
+3. List the charts deployed by helm with command `helm list`
+4. List the deployments for this application with command `helm history hmpps-send-legal-mail-staff-ui`
+5. Given the application version you wish to rollback to, find the related revision number
+6. Rollback to that version with command `helm rollback hmpps-send-legal-mail-staff-ui <revision-number>` replacing `<revision-number>` as appropriate
+
+## Imported Types
+Some types are imported from the Open API docs for send-legal-mail-to-prisons-api and prison-register.
+
+To update the types from the Open API docs run the following commands:
+
+`npx openapi-typescript https://send-legal-mail-api-dev.prison.service.justice.gov.uk/v3/api-docs -output send-legal-mail-api.ts > server/@types/sendLegalMailApi/index.d.ts`
+
+`npx openapi-typescript https://prison-register-dev.hmpps.service.justice.gov.uk/v3/api-docs -output prison-register-api.ts > server/@types/prisonRegisterApi/index.d.ts`
+
+Note that you will need to run prettier over the generated files and possibly handle other errors before compiling.
+
+The types are inherited for use in `server/@types/sendLegalMailApiClientTypes/index.d.ts` and `server/@types/prisonRegisterApiClientTypes/index.d.ts` which may also need tweaking for use.
+
 ## Running the app
 The easiest way to run the app is to use docker compose to create the service and all dependencies. 
 
