@@ -3,9 +3,14 @@ import type { RequestHandler } from 'express'
 
 import logger from '../../logger'
 import asyncMiddleware from './asyncMiddleware'
+import config from '../config'
 
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
   return asyncMiddleware((req, res, next) => {
+    if (config.smoketest.msjSecret && req.session?.msjSmokeTestUser) {
+      return next()
+    }
+
     if (res.locals?.user?.token) {
       const { authorities: roles = [] } = jwtDecode(res.locals.user.token) as { authorities?: string[] }
 

@@ -5,6 +5,7 @@ import type { RequestHandler } from 'express'
 import config from '../config'
 import generateOauthClientToken from './clientCredentials'
 import type { TokenVerifier } from '../data/tokenVerification'
+import SmokeTestStore from '../data/cache/SmokeTestStore'
 
 passport.serializeUser((user, done) => {
   // Not used but required for Passport
@@ -16,13 +17,44 @@ passport.deserializeUser((user, done) => {
   done(null, user as Express.User)
 })
 
-export type AuthenticationMiddleware = (tokenVerifier: TokenVerifier) => RequestHandler
+export type AuthenticationMiddleware = (tokenVerifier: TokenVerifier, smokeTestStore: SmokeTestStore) => RequestHandler
 
-const authenticationMiddleware: AuthenticationMiddleware = verifyToken => {
+const authenticationMiddleware: AuthenticationMiddleware = (verifyToken, smokeTestStore) => {
   return async (req, res, next) => {
+    const { msjSecret } = config.smoketest
+
+    function configureMsjSmoketestUser() {
+      req.user = { username: msjSecret, token: msjSecret, authSource: 'smoketest' }
+      res.locals.user = {
+        username: msjSecret,
+        name: 'Smoke Test MSJ',
+        displayName: 'Smoke Test MSJ',
+        activeCaseLoadId: 'SKI',
+      }
+      res.locals.user.roles = ['ROLE_SLM_SCAN_BARCODE', 'ROLE_SLM_ADMIN']
+    }
+
+    async function checkForSmokeTestRequest() {
+      if (req.query['smoke-test']) {
+        const smokeTestSecret = await smokeTestStore.getSmokeTestSecret()
+        if (req.query['smoke-test'] === smokeTestSecret) {
+          req.session.msjSmokeTestUser = true
+        }
+      }
+    }
+
+    if (msjSecret || req.query['smoke-test']) {
+      await checkForSmokeTestRequest()
+      if (req.session.msjSmokeTestUser) {
+        configureMsjSmoketestUser()
+        return next()
+      }
+    }
+
     if (req.isAuthenticated() && (await verifyToken(req))) {
       return next()
     }
+
     req.session.returnTo = req.originalUrl
     return res.redirect('/sign-in')
   }
