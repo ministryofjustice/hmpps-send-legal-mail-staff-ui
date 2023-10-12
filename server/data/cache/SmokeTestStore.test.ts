@@ -36,13 +36,12 @@ describe('SmokeTestStore', () => {
     })
   })
 
-  it('should get and delete the smoke test secret', async () => {
+  it('should get the smoke test secret', async () => {
     redisClient.get.mockReturnValue(Promise.resolve('some-secret'))
 
     const secret = await smokeTestStore.getSmokeTestSecret()
 
     expect(redisClient.get).toHaveBeenCalledWith('smokeTest:smokeTest')
-    expect(redisClient.del).toHaveBeenCalledWith('smokeTest:smokeTest')
     expect(secret).toBe('some-secret')
   })
 

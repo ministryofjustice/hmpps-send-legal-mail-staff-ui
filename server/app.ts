@@ -21,6 +21,8 @@ import type { Services } from './services'
 import setupScanBarcode from './middleware/scan/setupScanBarcode'
 import setupSupportedPrisons from './middleware/prisons/setupSupportedPrisons'
 import setupSmokeTest from './middleware/smoketest/SmokeTestMiddleware'
+import auth from './authentication/auth'
+import tokenVerifier from './data/tokenVerification'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -38,6 +40,7 @@ export default function createApp(services: Services): express.Application {
   nunjucksSetup(app, services.applicationInfo)
   app.use(setupSmokeTest(services.smokeTestStore))
   app.use(setUpAuthentication())
+  app.use(auth.authenticationMiddleware(tokenVerifier, services.smokeTestStore))
   app.use(authorisationMiddleware())
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))

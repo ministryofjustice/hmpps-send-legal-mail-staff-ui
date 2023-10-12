@@ -12,17 +12,6 @@ import type { ApplicationInfo } from '../../applicationInfo'
 import UserService from '../../services/userService'
 import setUpCurrentUser from '../../middleware/setUpCurrentUser'
 
-export const user = {
-  name: 'john smith',
-  firstName: 'john',
-  lastName: 'smith',
-  username: 'user1',
-  displayName: 'John Smith',
-  activeCaseLoadId: 'BXI',
-  authSource: 'NOMIS',
-  token: 'token1',
-}
-
 class MockUserService extends UserService {
   constructor() {
     super(undefined)
@@ -103,4 +92,15 @@ const createToken = () => {
   }
 
   return jwt.sign(payload, 'secret', { expiresIn: '1h' })
+}
+
+export const user = {
+  name: 'john smith',
+  firstName: 'john',
+  lastName: 'smith',
+  username: 'user1',
+  displayName: 'John Smith',
+  activeCaseLoadId: 'BXI',
+  authSource: 'NOMIS',
+  token: createToken(),
 }
