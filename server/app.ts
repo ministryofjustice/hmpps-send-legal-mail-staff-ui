@@ -41,8 +41,8 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(authorisationMiddleware(['ROLE_SLM_SCAN_BARCODE', 'ROLE_SLM_ADMIN']))
-  app.use('/', setupScanBarcode(services.scanBarcodeService, services.prisonService, services.appInsightsService))
-  app.use('/supported-prisons', setupSupportedPrisons(services.prisonService))
+  app.use(setupScanBarcode(services.scanBarcodeService, services.prisonService, services.appInsightsService))
+  app.use(setupSupportedPrisons(services.prisonService))
   app.use(routes(services))
 
   app.use((req, res, next) => next(createError(404, 'Not found')))
