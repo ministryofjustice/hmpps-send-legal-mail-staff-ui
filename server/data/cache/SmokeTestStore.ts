@@ -23,7 +23,7 @@ export default class SmokeTestStore {
 
   public async setSmokeTestSecret(oneTimeSecret: string): Promise<void> {
     await this.ensureConnected()
-    await this.client.set(`${this.prefix}${this.key}`, oneTimeSecret, { EX: 1200 })
+    await this.client.set(`${this.prefix}${this.key}`, oneTimeSecret, { EX: 60 })
   }
 
   public async getSmokeTestSecret(): Promise<string> {
