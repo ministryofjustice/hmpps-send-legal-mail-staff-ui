@@ -26,6 +26,12 @@ parameters:
     type: string
     default: 18.17-browsers
 
+executors:
+  smoke-test:
+    docker:
+      - image: cypress/included:12.5.1
+    working_directory: ~/tests
+
 jobs:
   build:
     executor:
