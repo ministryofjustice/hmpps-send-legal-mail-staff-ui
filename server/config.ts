@@ -87,4 +87,7 @@ export default {
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),
+  smoketest: {
+    msjSecret: get('APP_SMOKETEST_MSJSECRET', null),
+  },
 }

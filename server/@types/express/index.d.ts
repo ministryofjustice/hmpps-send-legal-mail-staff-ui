@@ -9,6 +9,7 @@ declare module 'express-session' {
     nowInMinutes: number
     barcodeEntryForm: BarcodeEntryForm
     scannedAtLeastOneBarcode: boolean
+    msjSmokeTestUser: boolean
   }
 }
 

@@ -2,6 +2,7 @@ import { SessionData } from 'express-session'
 import { NextFunction, Request, Response } from 'express'
 import auth from './auth'
 import tokenVerifier from '../data/tokenVerification'
+import SmokeTestStore from '../data/cache/SmokeTestStore'
 
 const req = {
   session: {} as SessionData,
@@ -15,12 +16,18 @@ const res = {
   locals: {},
 }
 const next = jest.fn()
+const smokeTestStore = {
+  getSmokeTestSecret: jest.fn(),
+}
 
 jest.mock('../data/tokenVerification')
 const verifyToken = tokenVerifier as jest.Mock
 
 describe('authenticationMiddleware', () => {
-  const authenticationMiddleware = auth.authenticationMiddleware(tokenVerifier)
+  const authenticationMiddleware = auth.authenticationMiddleware(
+    tokenVerifier,
+    smokeTestStore as undefined as SmokeTestStore,
+  )
 
   afterEach(() => {
     jest.resetAllMocks()

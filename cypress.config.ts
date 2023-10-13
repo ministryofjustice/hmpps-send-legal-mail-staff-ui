@@ -23,7 +23,7 @@ export default defineConfig({
         reset: resetStubs,
 
         getSignInUrl: auth.getSignInUrl,
-        stubSignIn: () => auth.stubSignIn([]),
+        stubSignIn: () => auth.stubSignIn(['ROLE_SLM_SCAN_BARCODE']),
         stubSignInWithRole_SLM_SCAN_BARCODE: () => auth.stubSignIn(['ROLE_SLM_SCAN_BARCODE']),
         stubSignInWithRole_SLM_ADMIN: () => auth.stubSignIn(['ROLE_SLM_ADMIN']),
 

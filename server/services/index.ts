@@ -8,18 +8,19 @@ import PrisonRegisterStore from '../data/cache/PrisonRegisterStore'
 import SupportedPrisonsService from './prison/SupportedPrisonsService'
 import AppInsightsService from './AppInsightsService'
 import { buildAppInsightsClient } from '../utils/azureAppInsights'
-import { createRedisClient } from '../data/redisClient'
+import SmokeTestStore from '../data/cache/SmokeTestStore'
 
 export const services = () => {
-  const { hmppsAuthClient, applicationInfo } = dataAccess()
+  const { hmppsAuthClient, redisClient, applicationInfo } = dataAccess()
   const appInsightsTelemetryClient: TelemetryClient = buildAppInsightsClient(applicationInfo)
   const userService = new UserService(hmppsAuthClient)
   const scanBarcodeService = new ScanBarcodeService(hmppsAuthClient)
   const prisonService = new PrisonService(
-    new PrisonRegisterService(new PrisonRegisterStore(createRedisClient())),
+    new PrisonRegisterService(new PrisonRegisterStore(redisClient)),
     new SupportedPrisonsService(),
   )
   const appInsightsService = new AppInsightsService(appInsightsTelemetryClient)
+  const smokeTestStore = new SmokeTestStore(redisClient)
 
   return {
     applicationInfo,
@@ -27,6 +28,7 @@ export const services = () => {
     scanBarcodeService,
     prisonService,
     appInsightsService,
+    smokeTestStore,
   }
 }
 
