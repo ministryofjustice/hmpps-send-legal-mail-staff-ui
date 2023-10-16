@@ -238,7 +238,7 @@ workflows:
             - deploy_preprod
           context:
             - hmpps-common-vars
-            - send-legal-mail-to-prisons-preprod
+            - hmpps-send-legal-mail-staff-ui-preprod
 
 #      - request-prod-approval:
 #          type: approval
