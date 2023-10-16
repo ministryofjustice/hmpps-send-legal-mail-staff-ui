@@ -16,7 +16,7 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
   app.set('view engine', 'njk')
 
   app.locals.asset_path = '/assets/'
-  app.locals.applicationName = 'Check Rule 39 Mail'
+  app.locals.applicationName = 'Check Rule 39 mail'
 
   // Cachebusting version string
   if (production) {

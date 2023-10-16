@@ -19,7 +19,7 @@ describe('GET /', () => {
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('Check Rule 39 Mail')
+        expect(res.text).toContain('Check Rule 39 mail')
 
         const doc = new JSDOM(res.text).window.document
         const link = doc.querySelector('a[href="/scan-barcode"]')
