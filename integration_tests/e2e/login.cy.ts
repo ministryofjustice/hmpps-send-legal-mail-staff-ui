@@ -8,6 +8,7 @@ context('SignIn', () => {
     cy.task('reset')
     cy.task('stubSignIn')
     cy.task('stubAuthUser')
+    cy.task('stubDpsComponentsFail')
   })
 
   it('Unauthenticated user directed to auth', () => {
@@ -20,10 +21,10 @@ context('SignIn', () => {
     Page.verifyOnPage(AuthSignInPage)
   })
 
-  it('User name visible in header', () => {
+  it('User name visible in fallback header', () => {
     cy.signIn()
     const indexPage = Page.verifyOnPage(IndexPage)
-    indexPage.headerUserName().should('contain.text', 'J. Smith')
+    indexPage.fallbackHeaderUserName().should('contain.text', 'J. Smith')
   })
 
   it('User can log out', () => {
@@ -63,6 +64,6 @@ context('SignIn', () => {
     cy.task('stubAuthUser', 'bobby brown')
     cy.signIn()
 
-    indexPage.headerUserName().contains('B. Brown')
+    indexPage.fallbackHeaderUserName().contains('B. Brown')
   })
 })
