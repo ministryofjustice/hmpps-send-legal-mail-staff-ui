@@ -6,7 +6,7 @@ export default class IndexPage extends Page {
     super('index-page', { axeTest: true })
   }
 
-  headerUserName = (): PageElement => cy.get('[data-qa=header-user-name]')
+  fallbackHeaderUserName = (): PageElement => cy.get('[data-qa=header-user-name]')
 
   containsTile(tileTitle: string): IndexPage {
     this.tilesContainer().should('contain', tileTitle)

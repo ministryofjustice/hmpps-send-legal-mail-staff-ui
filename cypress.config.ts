@@ -5,6 +5,7 @@ import tokenVerification from './integration_tests/mockApis/tokenVerification'
 import prisonRegister from './integration_tests/mockApis/sendLegalMail/prisonRegister'
 import barcode from './integration_tests/mockApis/sendLegalMail/barcode'
 import supportedPrisons from './integration_tests/mockApis/supportedPrisons'
+import dpsComponents from './integration_tests/mockApis/dpsComponents'
 
 export default defineConfig({
   chromeWebSecurity: false,
@@ -30,7 +31,7 @@ export default defineConfig({
         stubAuthUser: auth.stubUser,
         stubAuthPing: auth.stubPing,
         stubAuthToken: auth.stubToken,
-
+        stubDpsComponentsFail: dpsComponents.stubDpsComponentsFail,
         stubTokenVerificationPing: tokenVerification.stubTokenVerificationPing,
         stubVerifyToken: tokenVerification.stubVerifyToken,
 

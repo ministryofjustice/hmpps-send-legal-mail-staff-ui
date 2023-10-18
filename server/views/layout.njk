@@ -26,12 +26,32 @@
 
   <script src="/assets/js/page-enhancements.js"></script>
 
+
+{% if feComponents.jsInclude %}
+  {% for js in feComponents.jsIncludes %}
+    <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
+  {% endfor %}
+{% endif %}
+
+{% if feComponents.cssIncludes %}
+  {% for css in feComponents.cssIncludes %}
+    <link href="{{ css }}" nonce="{{ cspNonce }}" rel="stylesheet" />
+  {% endfor %}
+{% endif %}
+
 {% endblock %}
 
 {% block pageTitle %}{{pageTitle | pageTitleInError(errors) | default(applicationName)}}{% endblock %}
 
 {% block header %}
-  {% include "partials/header.njk" %}
+  {% if feComponents.header %}
+    {{ feComponents.header | safe }}
+  {% else %}
+    {% include "partials/header.njk" %}
+  {% endif %}
+{% endblock %}
+
+{% block beforeContent %}
 {% endblock %}
 
 {% block main %}
@@ -53,4 +73,12 @@
   <script src="/assets/govukFrontendInit.js"></script>
   <script src="/assets/moj/all.js"></script>
   {% block pageScripts %}{% endblock %}
+{% endblock %}
+
+{% block footer %}
+  {% if feComponents.footer %}
+    {{ feComponents.footer | safe }}
+  {% else %}
+    {% include "partials/footer.njk" %}
+  {% endif %}
 {% endblock %}

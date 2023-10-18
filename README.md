@@ -81,6 +81,7 @@ SESSION_SECRET=anything
 PORT=3000
 SEND_LEGAL_MAIL_API_URL=http://localhost:8080
 PRISON_REGISTER_API_URL=https://prison-register-dev.hmpps.service.justice.gov.uk
+COMPONENT_API_URL=https://frontend-components-dev.hmpps.service.justice.gov.uk
 REDIS_HOST=localhost
 API_CLIENT_ID=send-legal-mail-to-prisons
 SYSTEM_CLIENT_ID=send-legal-mail-to-prisons-client

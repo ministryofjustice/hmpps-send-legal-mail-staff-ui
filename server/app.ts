@@ -5,6 +5,7 @@ import createError from 'http-errors'
 import nunjucksSetup from './utils/nunjucksSetup'
 import errorHandler from './errorHandler'
 import authorisationMiddleware from './middleware/authorisationMiddleware'
+import getDpsFrontendComponents from './middleware/dpsFrontendComponents'
 import { metricsMiddleware } from './monitoring/metricsApp'
 
 import setUpAuthentication from './middleware/setUpAuthentication'
@@ -41,6 +42,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(authorisationMiddleware(['ROLE_SLM_SCAN_BARCODE', 'ROLE_SLM_ADMIN']))
+  app.use(getDpsFrontendComponents())
   app.use(setupScanBarcode(services.scanBarcodeService, services.prisonService, services.appInsightsService))
   app.use(setupSupportedPrisons(services.prisonService))
   app.use(routes(services))
