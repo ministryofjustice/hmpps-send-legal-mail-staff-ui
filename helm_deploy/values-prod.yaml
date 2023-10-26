@@ -12,5 +12,6 @@ generic-service:
     SEND_LEGAL_MAIL_API_URL: "https://send-legal-mail-api.prison.service.justice.gov.uk"
     PRISON_REGISTER_API_URL: "https://prison-register.hmpps.service.justice.gov.uk"
     COMPONENT_API_URL: "https://frontend-components.hmpps.service.justice.gov.uk"
+
 generic-prometheus-alerts:
   alertSeverity: digital-prison-service
