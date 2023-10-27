@@ -13,6 +13,8 @@ generic-service:
     SEND_LEGAL_MAIL_API_URL: "https://send-legal-mail-api-dev.prison.service.justice.gov.uk"
     PRISON_REGISTER_API_URL: "https://prison-register-dev.hmpps.service.justice.gov.uk"
     COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
+    DPS_URL: "https://digital-dev.prison.service.justice.gov.uk"
+
   namespace_secrets:
     smoke-test:
       APP_SMOKETEST_MSJSECRET: "APP_SMOKETEST_MSJSECRET"

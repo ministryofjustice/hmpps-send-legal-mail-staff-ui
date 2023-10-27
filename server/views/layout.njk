@@ -51,14 +51,13 @@
   {% endif %}
 {% endblock %}
 
-{% block beforeContent %}
-{% endblock %}
-
 {% block main %}
   <div class="govuk-width-container {{ containerClasses }}">
       <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
       <span class="govuk-visually-hidden" id="pageId" data-qa="{{ pageId }}"></span>
-
+      {% block beforeContent %}
+        {% include "partials/breadcrumbs.njk" %}
+      {% endblock %}
     <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
       {% block content %}{% endblock %}
     </main>
