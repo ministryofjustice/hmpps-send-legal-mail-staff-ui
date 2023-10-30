@@ -1,3 +1,5 @@
+import logAccessibilityViolations from '../support/logAccessibilityViolations'
+
 export type PageElement = Cypress.Chainable<JQuery>
 
 export default abstract class Page {
@@ -23,7 +25,7 @@ export default abstract class Page {
 
   runAxe = (): void => {
     cy.injectAxe()
-    cy.checkA11y()
+    cy.checkA11y(null, null, logAccessibilityViolations)
   }
 
   signOut = (): PageElement => cy.get('[data-qa=signOut]')

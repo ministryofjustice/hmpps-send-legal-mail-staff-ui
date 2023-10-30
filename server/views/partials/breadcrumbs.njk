@@ -1,6 +1,6 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-<nav>
+<nav aria-label="breadcrumbs">
   {% if breadcrumbs %}
     {{ govukBreadcrumbs({
       items: breadcrumbs.items
