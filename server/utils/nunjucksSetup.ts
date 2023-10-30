@@ -9,6 +9,7 @@ import pageTitleInErrorFilter from '../filters/pageTitleInErrorFilter'
 import formatDateFilter from '../filters/formatDateFilter'
 import { ApplicationInfo } from '../applicationInfo'
 import prisonsTableRowsFilter from '../filters/prisonsTableRowsFilter'
+import config from '../config'
 
 const production = process.env.NODE_ENV === 'production'
 
@@ -17,6 +18,7 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
 
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Check Rule 39 mail'
+  app.locals.dpsUrl = config.apis.dpsUrl
 
   // Cachebusting version string
   if (production) {
