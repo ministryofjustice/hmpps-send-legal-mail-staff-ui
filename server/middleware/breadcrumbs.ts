@@ -11,11 +11,15 @@ class Breadcrumbs {
         text: 'Digital Prison Services',
         href: res.app.locals.dpsUrl,
       },
-      {
-        text: 'Check Rule 39 mail',
-        href: '/',
-      },
     ]
+  }
+
+  popLastItem(): Breadcrumb {
+    return this.breadcrumbs.pop()
+  }
+
+  addItems(...items: Breadcrumb[]): void {
+    this.breadcrumbs.push(...items)
   }
 
   get items(): readonly Breadcrumb[] {
