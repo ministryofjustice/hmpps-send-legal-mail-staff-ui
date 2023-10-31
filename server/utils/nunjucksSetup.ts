@@ -18,7 +18,7 @@ export default function nunjucksSetup(app: express.Express, applicationInfo: App
 
   app.locals.asset_path = '/assets/'
   app.locals.applicationName = 'Check Rule 39 mail'
-  app.locals.dpsUrl = config.apis.dpsUrl
+  app.locals.dpsUrl = config.dpsUrl
 
   // Cachebusting version string
   if (production) {
