@@ -22,6 +22,7 @@ import type { Services } from './services'
 import setupScanBarcode from './middleware/scan/setupScanBarcode'
 import setupSupportedPrisons from './middleware/prisons/setupSupportedPrisons'
 import setupSmokeTest from './middleware/smoketest/SmokeTestMiddleware'
+import breadcrumbs from './middleware/breadcrumbs'
 
 export default function createApp(services: Services): express.Application {
   const app = express()
@@ -42,6 +43,7 @@ export default function createApp(services: Services): express.Application {
   app.use(setUpCsrf())
   app.use(setUpCurrentUser(services))
   app.use(authorisationMiddleware(['ROLE_SLM_SCAN_BARCODE', 'ROLE_SLM_ADMIN']))
+  app.use(breadcrumbs())
   app.use(getDpsFrontendComponents())
   app.use(setupScanBarcode(services.scanBarcodeService, services.prisonService, services.appInsightsService))
   app.use(setupSupportedPrisons(services.prisonService))
