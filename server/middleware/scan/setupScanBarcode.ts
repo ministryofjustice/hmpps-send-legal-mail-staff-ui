@@ -15,6 +15,12 @@ export default function setupScanBarcode(
   const router = express.Router()
 
   const get = (path: string, handler: RequestHandler) => router.get(path, asyncMiddleware(handler))
+
+  router.use((req, res, next) => {
+    res.locals.breadcrumbs.addItems({ text: 'Check Rule 39 mail', href: '/' })
+    next()
+  })
+
   const post = (path: string, handler: RequestHandler) => router.post(path, asyncMiddleware(handler))
 
   const scanBarcodeController = new ScanBarcodeController(
