@@ -27,7 +27,7 @@
   <script src="/assets/js/page-enhancements.js"></script>
 
 
-{% if feComponents.jsInclude %}
+{% if feComponents.jsIncludes %}
   {% for js in feComponents.jsIncludes %}
     <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
   {% endfor %}
