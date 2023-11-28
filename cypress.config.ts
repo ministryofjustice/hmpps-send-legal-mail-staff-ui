@@ -1,6 +1,7 @@
 import { defineConfig } from 'cypress'
 import { resetStubs } from './integration_tests/mockApis/wiremock'
 import auth from './integration_tests/mockApis/auth'
+import manageUsersApi from './integration_tests/mockApis/manageUsersApi'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
 import prisonRegister from './integration_tests/mockApis/sendLegalMail/prisonRegister'
 import barcode from './integration_tests/mockApis/sendLegalMail/barcode'
@@ -28,7 +29,7 @@ export default defineConfig({
         stubSignInWithRole_SLM_SCAN_BARCODE: () => auth.stubSignIn(['ROLE_SLM_SCAN_BARCODE']),
         stubSignInWithRole_SLM_ADMIN: () => auth.stubSignIn(['ROLE_SLM_ADMIN']),
 
-        stubAuthUser: auth.stubUser,
+        stubManageUser: manageUsersApi.stubManageUser,
         stubAuthPing: auth.stubPing,
         stubAuthToken: auth.stubToken,
         stubDpsComponentsFail: dpsComponents.stubDpsComponentsFail,

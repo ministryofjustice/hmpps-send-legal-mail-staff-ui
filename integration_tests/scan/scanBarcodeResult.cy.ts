@@ -6,7 +6,7 @@ import ScanBarcodeResultPage from '../pages/scan/scanBarcodeResult'
 context('Scan Barcode Result Page', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubAuthUser')
+    cy.task('stubManageUser')
   })
 
   it('Logged in user with SLM_SCAN_BARCODE role cannot navigate directly to scan barcode result page', () => {

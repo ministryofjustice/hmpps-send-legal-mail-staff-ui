@@ -11,9 +11,9 @@ import { buildAppInsightsClient } from '../utils/azureAppInsights'
 import SmokeTestStore from '../data/cache/SmokeTestStore'
 
 export const services = () => {
-  const { hmppsAuthClient, redisClient, applicationInfo } = dataAccess()
+  const { hmppsAuthClient, manageUsersApiClient, redisClient, applicationInfo } = dataAccess()
   const appInsightsTelemetryClient: TelemetryClient = buildAppInsightsClient(applicationInfo)
-  const userService = new UserService(hmppsAuthClient)
+  const userService = new UserService(manageUsersApiClient)
   const scanBarcodeService = new ScanBarcodeService(hmppsAuthClient)
   const prisonService = new PrisonService(
     new PrisonRegisterService(new PrisonRegisterStore(redisClient)),

@@ -6,7 +6,7 @@ import ScanBarcodeResultPage from '../pages/scan/scanBarcodeResult'
 context('Scan Barcode Page', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubAuthUser')
+    cy.task('stubManageUser')
     cy.task('stubGetPrisonRegister')
   })
 

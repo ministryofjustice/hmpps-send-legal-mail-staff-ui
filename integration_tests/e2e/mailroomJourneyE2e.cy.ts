@@ -6,7 +6,7 @@ import ScanAnotherBarcodePage from '../pages/scan/scanAnotherBarcode'
 context('Mailroom Journey E2E', () => {
   beforeEach(() => {
     cy.task('reset')
-    cy.task('stubAuthUser')
+    cy.task('stubManageUser')
     cy.task('stubSignInWithRole_SLM_SCAN_BARCODE')
     cy.task('stubVerifyValidBarcode')
     cy.task('stubVerifyNotFoundBarcode')
