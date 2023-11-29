@@ -6,7 +6,7 @@ context('Index Page', () => {
   beforeEach(() => {
     cy.task('reset')
     cy.task('stubSignIn')
-    cy.task('stubAuthUser')
+    cy.task('stubManageUser')
   })
 
   it('DPS user with SLM_SCAN_BARCODE role does see tile', () => {

@@ -74,6 +74,7 @@ Install dependencies using `npm install`, ensuring you are using `node v18.x` an
 Create a `.env` which should override environment variables required to run locally:
 ```properties
 HMPPS_AUTH_URL=http://localhost:9090/auth
+HMPPS_MANAGE_USERS_API_URL=https://manage-users-api-dev.hmpps.service.justice.gov.uk
 TOKEN_VERIFICATION_API_URL=https://token-verification-api-dev.prison.service.justice.gov.uk
 TOKEN_VERIFICATION_ENABLED=false
 NODE_ENV=development
