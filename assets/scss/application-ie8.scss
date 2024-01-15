@@ -1,8 +1,0 @@
-$govuk-global-styles: true;
-$path: "/assets/images/";
-
-@import 'govuk/all-ie8';
-
-@import './components/header';
-@import './components/footer';
-@import 'assets/scss/local';
