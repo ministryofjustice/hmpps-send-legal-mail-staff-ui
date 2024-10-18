@@ -6,7 +6,7 @@ import type { ApplicationInfo } from '../applicationInfo'
 export default function setUpHealthChecks(applicationInfo: ApplicationInfo): Router {
   const router = express.Router()
 
-  router.get('/health', (req, res, next) => {
+  router.get('/health', (req, res) => {
     healthcheck(applicationInfo, result => {
       if (!result.healthy) {
         res.status(503)
@@ -15,11 +15,11 @@ export default function setUpHealthChecks(applicationInfo: ApplicationInfo): Rou
     })
   })
 
-  router.get('/ping', (req, res) =>
+  router.get('/ping', (req, res) => {
     res.send({
       status: 'UP',
-    }),
-  )
+    })
+  })
 
   router.get('/info', (req, res) => {
     res.json({
