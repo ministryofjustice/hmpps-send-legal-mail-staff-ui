@@ -102,10 +102,10 @@
     "connect-flash": "^0.1.1",
     "connect-redis": "^7.1.1",
     "csurf": "^1.11.0",
-    "express": "^4.21.0",
-    "express-prom-bundle": "^7.0.0",
-    "express-session": "^1.18.0",
-    "govuk-frontend": "^5.6.0",
+    "express": "^4.21.1",
+    "express-prom-bundle": "^7.0.2",
+    "express-session": "^1.18.1",
+    "govuk-frontend": "^5.7.1",
     "helmet": "^8.0.0",
     "http-errors": "^2.0.0",
     "inputmask": "^5.0.9",
@@ -156,8 +156,8 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.3",
-    "eslint-plugin-cypress": "^3.5.0",
-    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-cypress": "^3.6.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.6",
@@ -175,6 +175,6 @@
     "sass": "^1.80.2",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   }
 }
