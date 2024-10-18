@@ -6,7 +6,7 @@ import type { ApplicationInfo } from '../applicationInfo'
 export default function setUpHealthChecks(applicationInfo: ApplicationInfo): Router {
   const router = express.Router()
 
-  router.get('/health', (req, res, next) => {
+  router.get('/health', (req, res) => {
     healthcheck(applicationInfo, result => {
       if (!result.healthy) {
         res.status(503)
