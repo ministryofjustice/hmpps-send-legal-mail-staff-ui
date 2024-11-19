@@ -54,6 +54,7 @@ generic-service:
       - internal
       - prisons
       - private_prisons
+      - global_protect
 
 generic-prometheus-alerts:
   targetApplication: hmpps-send-legal-mail-staff-ui
