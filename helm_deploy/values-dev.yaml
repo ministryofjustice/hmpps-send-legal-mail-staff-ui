@@ -55,4 +55,4 @@ generic-service:
     circle-ci-21: "54.209.115.53"
 
 generic-prometheus-alerts:
-  alertSeverity: digital-prison-service-dev
+  alertSeverity: hmpps-visits-send-legal-email-dev
