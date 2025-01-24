@@ -21,13 +21,13 @@
 
     <div class="govuk-grid-row" id="supported-prisons-form">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-xl">Manage supported prisons</h1>
+        <h1 class="govuk-heading-l">Manage supported prisons</h1>
 
         {% if supportedPrisons.length > 0 %}
           {{ govukTable({
             firstCellIsHeader: true,
             head: [
-              { text: 'Prison Code' },
+              { text: 'Prison code' },
               { text: 'Prison name' },
               { text: 'Remove', classes: 'govuk-!-width-one-quarter' }
             ],
