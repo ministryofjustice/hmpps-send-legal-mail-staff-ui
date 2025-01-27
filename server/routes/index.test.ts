@@ -14,16 +14,16 @@ afterEach(() => {
 })
 
 describe('GET /', () => {
-  it(`should render index page with 'Check Rule 39 mail' tile`, () => {
+  it(`should render index page with 'Scan barcodes' tile`, () => {
     return request(app)
       .get('/')
       .expect('Content-Type', /html/)
       .expect(res => {
-        expect(res.text).toContain('Check Rule 39 mail')
+        expect(res.text).toContain('Scan barcodes')
 
         const doc = new JSDOM(res.text).window.document
         const link = doc.querySelector('a[href="/scan-barcode"]')
-        expect(link.textContent).toContain('Check Rule 39 mail')
+        expect(link.textContent).toContain('Scan barcodes')
       })
   })
 })
