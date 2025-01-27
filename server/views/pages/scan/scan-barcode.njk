@@ -21,15 +21,13 @@
 
     <div class="govuk-grid-row" id="scan-barcode-form">
       <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">Check Rule 39 mail</h1>
+        <h1 class="govuk-heading-l">Scan a barcode</h1>
 
-        <p>You need to check mail with a Rule 39 barcode is genuine.</p>
+        <p>You need to check that mail with a Rule 39 barcode is genuine.</p>
 
         {{ govukInsetText({
           text: 'You must not open any item of Rule 39 mail without permission from the governor.'
         }) }}
-
-        <h2 class="govuk-heading-m">Scan the barcode</h2>
 
         <p>Aim the scanner beam at the barcode. You'll see a number in the box below and hear a beep if the scan has worked. After a few seconds you'll get further instructions.</p>
 
@@ -46,7 +44,7 @@
                 isPageHeading: false
               },
               hint: {
-                text: 'Point the scanner at the barcode.'
+                text: 'Point the scanner at the barcode'
               },
               attributes: {
                 autofocus: '',
