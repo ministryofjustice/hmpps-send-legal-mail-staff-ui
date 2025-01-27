@@ -13,7 +13,7 @@ context('Index Page', () => {
     cy.task('stubSignInWithRole_SLM_SCAN_BARCODE')
     cy.signIn()
 
-    Page.verifyOnPage(IndexPage).containsTile('Scan a barcode')
+    Page.verifyOnPage(IndexPage).containsTile('Scan barcodes')
   })
 
   it('DPS user without SLM_SCAN_BARCODE role does not see tile', () => {
