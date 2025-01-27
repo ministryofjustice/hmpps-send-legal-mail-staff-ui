@@ -42,7 +42,7 @@ context('Scan Barcode Page', () => {
     cy.task('stubSignInWithRole_SLM_SCAN_BARCODE')
     cy.signIn()
     cy.visit('/scan-barcode')
-    Page.verifyOnPage(ScanBarcodePage).hasMainHeading('Scan barcodes')
+    Page.verifyOnPage(ScanBarcodePage).hasMainHeading('Scan a barcode')
   })
 
   it('should render barcode results page given form submitted with barcode that verifies as OK', () => {
