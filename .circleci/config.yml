@@ -16,7 +16,7 @@ orbs:
 parameters:
   alerts-slack-channel:
     type: string
-    default: send-legal-mail-alerts
+    default: send-legal-mail-alerts-nonprod
 
   releases-slack-channel:
     type: string
@@ -24,7 +24,7 @@ parameters:
 
   node-version:
     type: string
-    default: 22.12-browsers
+    default: 22.13-browsers
 
 executors:
   smoke-test:
