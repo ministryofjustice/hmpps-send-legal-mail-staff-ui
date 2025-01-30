@@ -16,7 +16,7 @@ orbs:
 parameters:
   alerts-slack-channel:
     type: string
-    default: send-legal-mail-alerts
+    default: send-legal-mail-alerts-nonprod
 
   releases-slack-channel:
     type: string
@@ -24,12 +24,12 @@ parameters:
 
   node-version:
     type: string
-    default: 22.12-browsers
+    default: 22.13-browsers
 
 executors:
   smoke-test:
     docker:
-      - image: cypress/included:13.3.1
+      - image: cypress/included:13.7.0
     working_directory: ~/tests
 
 jobs:
@@ -136,6 +136,9 @@ jobs:
       - run:
           name: Checkout UI project
           command: git clone https://github.com/ministryofjustice/send-legal-mail-to-prisons.git
+      - run:
+          name: Update credentials
+          command: wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | tee /etc/apt/trusted.gpg.d/google.asc >/dev/null
       - run:
           name: Install curl
           command: apt-get update && apt-get install -y curl
