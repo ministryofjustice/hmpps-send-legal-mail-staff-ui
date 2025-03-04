@@ -91,7 +91,7 @@
     ]
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^3.6.2",
+    "@ministryofjustice/frontend": "^3.7.0",
     "accessible-autocomplete": "^3.0.1",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.6",
@@ -105,7 +105,7 @@
     "express": "^4.21.2",
     "express-prom-bundle": "^8.0.0",
     "express-session": "^1.18.1",
-    "govuk-frontend": "^5.8.0",
+    "govuk-frontend": "^5.9.0",
     "helmet": "^8.0.0",
     "http-errors": "^2.0.0",
     "inputmask": "^5.0.9",
@@ -151,7 +151,7 @@
     "dotenv": "^16.4.7",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^10.0.1",
+    "eslint-config-prettier": "^10.0.2",
     "eslint-import-resolver-typescript": "^3.8.3",
     "eslint-plugin-cypress": "^3.6.0",
     "eslint-plugin-import": "^2.31.0",
@@ -172,7 +172,7 @@
     "sass": "^1.85.1",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.6",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.2"
   },
   "overrides": {
     "csurf": {
