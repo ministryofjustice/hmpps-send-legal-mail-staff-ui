@@ -1,5 +1,5 @@
 import superagent from 'superagent'
-import Agent, { HttpsAgent } from 'agentkeepalive'
+import { HttpAgent, HttpsAgent } from 'agentkeepalive'
 
 import logger from '../../logger'
 import sanitiseError from '../sanitisedError'
@@ -41,7 +41,7 @@ interface DeleteRequest {
 }
 
 export default class RestClient {
-  agent: Agent
+  agent: HttpAgent
 
   constructor(
     private readonly name: string,
@@ -49,7 +49,7 @@ export default class RestClient {
     private readonly token: string = undefined,
     private readonly sourceIp: string = undefined,
   ) {
-    this.agent = config.url.startsWith('https') ? new HttpsAgent(config.agent) : new Agent(config.agent)
+    this.agent = config.url.startsWith('https') ? new HttpsAgent(config.agent) : new HttpAgent(config.agent)
   }
 
   private apiUrl() {
@@ -60,7 +60,13 @@ export default class RestClient {
     return this.config.timeout
   }
 
-  async get<T>({ path = null, query = '', headers = {}, responseType = '', raw = false }: GetRequest = {}): Promise<T> {
+  async get<Response = unknown>({
+    path = null,
+    query = '',
+    headers = {},
+    responseType = '',
+    raw = false,
+  }: GetRequest = {}): Promise<Response> {
     logger.info(`Get using user credentials: calling ${this.name}: ${path} ${query}`)
     try {
       const request = superagent.get(`${this.apiUrl()}${path}`)
@@ -82,7 +88,7 @@ export default class RestClient {
       }
 
       const result = await request
-      return raw ? result : result.body
+      return raw ? (result as Response) : result.body
     } catch (error) {
       const sanitisedError = sanitiseError(error)
       logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'GET'`)
@@ -90,14 +96,14 @@ export default class RestClient {
     }
   }
 
-  async post<T>({
+  async post<Response = unknown>({
     path = null,
     headers = {},
     responseType = '',
     data = {},
     raw = false,
     retry = false,
-  }: PostRequest = {}): Promise<T> {
+  }: PostRequest = {}): Promise<Response> {
     logger.info(`Post using user credentials: calling ${this.name}: ${path}`)
     try {
       const request = superagent.post(`${this.apiUrl()}${path}`)
@@ -123,7 +129,7 @@ export default class RestClient {
       }
 
       const result = await request
-      return raw ? result : result.body
+      return raw ? (result as Response) : result.body
     } catch (error) {
       const sanitisedError = sanitiseError(error)
       logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: 'POST'`)
@@ -131,14 +137,14 @@ export default class RestClient {
     }
   }
 
-  async put<T>({
+  async put<Response = unknown>({
     path = null,
     headers = {},
     responseType = '',
     data = {},
     raw = false,
     retry = false,
-  }: PutRequest = {}): Promise<T> {
+  }: PutRequest = {}): Promise<Response> {
     logger.info(`Put using user credentials: calling ${this.name}: ${path}`)
     try {
       const request = superagent.put(`${this.apiUrl()}${path}`)
@@ -164,7 +170,7 @@ export default class RestClient {
       }
 
       const result = await request
-      return raw ? result : result.body
+      return raw ? (result as Response) : result.body
     } catch (error) {
       const sanitisedError = sanitiseError(error)
       logger.warn({ ...sanitisedError }, `Error calling ${this.name}, path: '${path}', verb: 'PUT'`)
@@ -172,13 +178,13 @@ export default class RestClient {
     }
   }
 
-  async delete<T>({
+  async delete<Response = unknown>({
     path = null,
     query = '',
     headers = {},
     responseType = '',
     raw = false,
-  }: DeleteRequest = {}): Promise<T> {
+  }: DeleteRequest = {}): Promise<Response> {
     logger.info(`Delete using user credentials: calling ${this.name}: ${path} ${query}`)
     try {
       const result = await superagent
@@ -195,7 +201,7 @@ export default class RestClient {
         .responseType(responseType)
         .timeout(this.timeoutConfig())
 
-      return raw ? result : result.body
+      return raw ? (result as Response) : result.body
     } catch (error) {
       const sanitisedError = sanitiseError(error)
       logger.warn({ ...sanitisedError, query }, `Error calling ${this.name}, path: '${path}', verb: 'DELETE'`)
