@@ -35,7 +35,7 @@ export default class ScanBarcodeController {
   }
 
   async submitScannedBarcode(req: Request, res: Response): Promise<void> {
-    req.session.barcodeEntryForm = { ...req.body }
+    req.session.barcodeEntryForm = req.body ? { ...req.body } : {}
     if (!validate(req.session.barcodeEntryForm, req)) {
       return res.redirect('/scan-barcode')
     }
