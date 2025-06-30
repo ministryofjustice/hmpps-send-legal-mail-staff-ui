@@ -2,11 +2,10 @@ import { jwtDecode } from 'jwt-decode'
 import type { RequestHandler } from 'express'
 
 import logger from '../../logger'
-import asyncMiddleware from './asyncMiddleware'
 import config from '../config'
 
 export default function authorisationMiddleware(authorisedRoles: string[] = []): RequestHandler {
-  return asyncMiddleware((req, res, next) => {
+  return (req, res, next) => {
     if (config.smoketest.msjSecret && req.session?.msjSmokeTestUser) {
       return next()
     }
@@ -24,5 +23,5 @@ export default function authorisationMiddleware(authorisedRoles: string[] = []):
 
     req.session.returnTo = req.originalUrl
     return res.redirect('/sign-in')
-  })
+  }
 }
