@@ -15,7 +15,7 @@ import { createRedisClient } from './redisClient'
 import TokenStore from './tokenStore'
 import ManageUsersApiClient from './manageUsersApiClient'
 
-type RestClientBuilder<T> = (token: string) => T
+export type RestClientBuilder<T> = (token: string) => T
 const redisClient = createRedisClient()
 
 export const dataAccess = () => ({
@@ -27,4 +27,4 @@ export const dataAccess = () => ({
 
 export type DataAccess = ReturnType<typeof dataAccess>
 
-export { HmppsAuthClient, RestClientBuilder }
+export { HmppsAuthClient }
