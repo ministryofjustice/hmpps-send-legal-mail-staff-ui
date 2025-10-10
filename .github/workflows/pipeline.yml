@@ -79,6 +79,7 @@ jobs:
       app_version: '${{ needs.build.outputs.app_version }}'
   deploy_prod:
     name: Deploy to the prod environment
+    if: github.ref == 'refs/heads/main'
     needs:
       - build
       - deploy_preprod
