@@ -1,4 +1,5 @@
 # hmpps-send-legal-mail-staff-ui
+[![pipeline](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 ## About
 Typescript application for prison staff to allow scanning barcodes for legal mail (aka rule39 mail).
@@ -17,8 +18,6 @@ TBD.
 
 ### Build
 <em>Requires membership of Github team `book-a-prison-visit`</em>
-
-The application is built on [CircleCI](https://app.circleci.com/pipelines/github/ministryofjustice/hmpps-send-legal-mail-staff-ui).
 
 ### Versions
 The application version currently running can be found on the `/health` endpoint at node `build.buildNumber`. The format of the version number is `YYY-MM-DD.ccc.gggggg` where `ccc` is the Circle job number and `gggggg` is the git commit reference.
