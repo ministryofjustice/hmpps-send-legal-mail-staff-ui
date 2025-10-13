@@ -1,10 +1,12 @@
 # hmpps-send-legal-mail-staff-ui
 
+[![pipeline](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+
 ## About
 Typescript application for prison staff to allow scanning barcodes for legal mail (aka rule39 mail).
 
 ### Team
-The project is currently maintained by `book-a-prison-visit` team.
+The project is currently maintained by `hmpps-send-legal-mail-live` team.
 
 ### Health
 The application has a health endpoint found at `/health` which indicates if the app is running and is healthy.
@@ -16,9 +18,7 @@ The application has a ping endpoint found at `/ping` which indicates that the ap
 TBD.
 
 ### Build
-<em>Requires membership of Github team `book-a-prison-visit`</em>
-
-The application is built on [CircleCI](https://app.circleci.com/pipelines/github/ministryofjustice/hmpps-send-legal-mail-staff-ui).
+<em>Requires membership of Github team `hmpps-send-legal-mail-live`</em>
 
 ### Versions
 The application version currently running can be found on the `/health` endpoint at node `build.buildNumber`. The format of the version number is `YYY-MM-DD.ccc.gggggg` where `ccc` is the Circle job number and `gggggg` is the git commit reference.
@@ -27,7 +27,7 @@ The application version currently running can be found on the `/health` endpoint
 
 * <em>Requires CLI tools `kubectl` and `helm`</em>
 * <em>Requires access to Cloud Platform Kubernetes `live` cluster</em>
-* <em>Requires membership of Github team `book-a-prison-visit`</em>
+* <em>Requires membership of Github team `hmpps-send-legal-mail-live`</em>
 
 For example in the dev environment:
 1. Set the Kube context with command `kubectl config use-context live.cloud-platform.service.justice.gov.uk`
