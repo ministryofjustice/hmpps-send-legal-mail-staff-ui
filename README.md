@@ -69,7 +69,7 @@ To start the main services excluding the example typescript template app:
 
 `docker-compose up redis hmpps-auth nomis-user-roles-api`
 
-Install dependencies using `npm install`, ensuring you are using `node v18.x` and `npm v10.x`
+Install dependencies using `npm run setup`, ensuring you are using `node v24` and `npm v11`
 
 Create a `.env` which should override environment variables required to run locally:
 ```properties
