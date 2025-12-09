@@ -6,15 +6,9 @@
 
 {% block content %}
 
-<section class="app-container govuk-body">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-            <h1 class="govuk-heading-l">{{ applicationName }}</h1>
-        </div>
-    </div>
-
-    <div class="homepage-content">
-      <div class="govuk-width-container">
+ <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-l">{{ applicationName }}</h1>
         <ul class="govuk-grid-row card-group">
           {% for tile in tiles %}
             <li class="govuk-grid-column-one-third card-group__item">
@@ -28,8 +22,7 @@
             </li>
           {% endfor %}
         </ul>
-      </div>
     </div>
-  </section>
+  </div>
 
 {% endblock %}
