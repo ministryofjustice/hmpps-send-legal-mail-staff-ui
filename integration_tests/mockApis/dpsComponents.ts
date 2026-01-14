@@ -33,7 +33,7 @@ const ping = () =>
   stubFor({
     request: {
       method: 'GET',
-      urlPattern: '/component/health/ping',
+      urlPattern: '/components/health/ping',
     },
     response: {
       status: 200,
