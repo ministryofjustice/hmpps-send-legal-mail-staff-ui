@@ -1,3 +1,4 @@
+import { Response } from 'superagent'
 import { stubFor } from './wiremock'
 import { UserRole } from '../../server/data/manageUsersApiClient'
 
@@ -54,4 +55,5 @@ const ping = () =>
 export default {
   stubManageUser: stubUser,
   stubManageUserRoles: stubUserRoles,
+  stubPing: (): Promise<Response> => ping(),
 }
