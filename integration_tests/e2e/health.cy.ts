@@ -27,6 +27,9 @@ context('Healthcheck', () => {
       cy.task('reset')
       cy.task('stubAuthPing')
       cy.task('stubTokenVerificationPing', 500)
+      cy.task('stubPrisonRegisterPing')
+      cy.task('stubSlmPing')
+      cy.task('stubManageUsersPing')
 
       cy.request({ url: '/health', method: 'GET', failOnStatusCode: false }).then(response => {
         expect(response.body.components.hmppsAuth.status).to.equal('UP')
