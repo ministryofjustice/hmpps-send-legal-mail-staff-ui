@@ -31,10 +31,10 @@ export default defineConfig({
         stubSignInWithRole_SLM_ADMIN: () => auth.stubSignIn(['ROLE_SLM_ADMIN']),
 
         stubManageUser: manageUsersApi.stubManageUser,
+        stubManageUsersPing: manageUsersApi.stubPing,
         stubAuthPing: auth.stubPing,
         stubAuthToken: auth.stubToken,
         stubDpsComponentsFail: dpsComponents.stubDpsComponentsFail,
-        stubDpsComponentsPing: dpsComponents.stubPing,
         stubTokenVerificationPing: tokenVerification.stubTokenVerificationPing,
         stubVerifyToken: tokenVerification.stubVerifyToken,
 

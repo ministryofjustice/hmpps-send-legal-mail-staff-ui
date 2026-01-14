@@ -106,7 +106,6 @@ export default {
         deadline: Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000)),
       },
       agent: new AgentConfig(Number(get('COMPONENT_API_TIMEOUT_SECONDS', 5000))),
-      healthPath: '/health/ping',
     },
   },
   domain: get('INGRESS_URL', 'http://localhost:3000', requiredInProduction),

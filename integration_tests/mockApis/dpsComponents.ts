@@ -29,18 +29,6 @@ const stubFooterFail = () =>
     },
   })
 
-const ping = () =>
-  stubFor({
-    request: {
-      method: 'GET',
-      urlPattern: '/components/health/ping',
-    },
-    response: {
-      status: 200,
-    },
-  })
-
 export default {
   stubDpsComponentsFail: (): Promise<[Response, Response]> => Promise.all([stubHeaderFail(), stubFooterFail()]),
-  stubPing: (): Promise<Response> => ping(),
 }
