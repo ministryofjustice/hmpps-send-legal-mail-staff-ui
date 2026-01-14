@@ -40,6 +40,17 @@ const stubUserRoles = (roles: UserRole[] = [{ roleCode: 'SOME_USER_ROLE' }]) =>
     },
   })
 
+const ping = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/auth/health/ping',
+    },
+    response: {
+      status: 200,
+    },
+  })
+
 export default {
   stubManageUser: stubUser,
   stubManageUserRoles: stubUserRoles,
