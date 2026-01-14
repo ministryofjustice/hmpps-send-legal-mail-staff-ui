@@ -30,6 +30,8 @@ const testAppInfo: ApplicationInfo = {
   buildNumber: '1',
   gitRef: 'long ref',
   gitShortHash: 'short ref',
+  productId: 'UNASSIGNED',
+  branchName: 'main',
 }
 
 export const flashProvider = jest.fn()
