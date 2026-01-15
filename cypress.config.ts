@@ -4,6 +4,7 @@ import auth from './integration_tests/mockApis/auth'
 import manageUsersApi from './integration_tests/mockApis/manageUsersApi'
 import tokenVerification from './integration_tests/mockApis/tokenVerification'
 import prisonRegister from './integration_tests/mockApis/sendLegalMail/prisonRegister'
+import slmPing from './integration_tests/mockApis/sendLegalMail/healthPing'
 import barcode from './integration_tests/mockApis/sendLegalMail/barcode'
 import supportedPrisons from './integration_tests/mockApis/supportedPrisons'
 import dpsComponents from './integration_tests/mockApis/dpsComponents'
@@ -30,6 +31,7 @@ export default defineConfig({
         stubSignInWithRole_SLM_ADMIN: () => auth.stubSignIn(['ROLE_SLM_ADMIN']),
 
         stubManageUser: manageUsersApi.stubManageUser,
+        stubManageUsersPing: manageUsersApi.stubPing,
         stubAuthPing: auth.stubPing,
         stubAuthToken: auth.stubToken,
         stubDpsComponentsFail: dpsComponents.stubDpsComponentsFail,
@@ -48,6 +50,8 @@ export default defineConfig({
         stubGetSupportedPrisons: supportedPrisons.stubGetSupportedPrisons,
 
         stubGetPrisonRegister: prisonRegister.stubGetPrisonRegister,
+        stubPrisonRegisterPing: prisonRegister.stubPing,
+        stubSlmPing: slmPing.stubPing,
 
         // Log message to console
         log: (message: string) => {

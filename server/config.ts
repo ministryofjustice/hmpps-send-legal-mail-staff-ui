@@ -33,6 +33,7 @@ export default {
   buildNumber: get('BUILD_NUMBER', '1_0_0', requiredInProduction),
   productId: get('PRODUCT_ID', 'UNASSIGNED', requiredInProduction),
   gitRef: get('GIT_REF', 'xxxxxxxxxxxxxxxxxxx', requiredInProduction),
+  branchName: get('GIT_BRANCH', 'xxxxxxxxxxxxxxxxxxx', requiredInProduction),
   production,
   https: production,
   staticResourceCacheDuration: '1h',
@@ -59,6 +60,7 @@ export default {
       apiClientSecret: get('API_CLIENT_SECRET', 'clientsecret', requiredInProduction),
       systemClientId: get('SYSTEM_CLIENT_ID', 'clientid', requiredInProduction),
       systemClientSecret: get('SYSTEM_CLIENT_SECRET', 'clientsecret', requiredInProduction),
+      healthPath: '/health/ping',
     },
     manageUsersApi: {
       url: get('MANAGE_USERS_API_URL', 'http://localhost:9091', requiredInProduction),
@@ -67,6 +69,7 @@ export default {
         deadline: Number(get('MANAGE_USERS_API_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(Number(get('MANAGE_USERS_API_TIMEOUT_RESPONSE', 10000))),
+      healthPath: '/health/ping',
     },
     tokenVerification: {
       url: get('TOKEN_VERIFICATION_API_URL', 'http://localhost:8100', requiredInProduction),
@@ -76,6 +79,7 @@ export default {
       },
       agent: new AgentConfig(Number(get('TOKEN_VERIFICATION_API_TIMEOUT_RESPONSE', 5000))),
       enabled: get('TOKEN_VERIFICATION_ENABLED', 'false') === 'true',
+      healthPath: '/health/ping',
     },
     sendLegalMail: {
       url: get('SEND_LEGAL_MAIL_API_URL', 'http://localhost:8101', requiredInProduction),
@@ -84,6 +88,7 @@ export default {
         deadline: Number(get('SEND_LEGAL_MAIL_API_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(),
+      healthPath: '/health/ping',
     },
     prisonRegister: {
       url: get('PRISON_REGISTER_API_URL', 'http://localhost:8101', requiredInProduction),
@@ -92,6 +97,7 @@ export default {
         deadline: Number(get('PRISON_REGISTER_API_TIMEOUT_DEADLINE', 10000)),
       },
       agent: new AgentConfig(),
+      healthPath: '/health/ping',
     },
     frontendComponents: {
       url: get('COMPONENT_API_URL', 'http://localhost:8082', requiredInProduction),

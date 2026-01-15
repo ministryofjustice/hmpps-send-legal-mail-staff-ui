@@ -1,3 +1,4 @@
+import { Response } from 'superagent'
 import { stubFor } from './wiremock'
 import { UserRole } from '../../server/data/manageUsersApiClient'
 
@@ -40,7 +41,19 @@ const stubUserRoles = (roles: UserRole[] = [{ roleCode: 'SOME_USER_ROLE' }]) =>
     },
   })
 
+const ping = () =>
+  stubFor({
+    request: {
+      method: 'GET',
+      urlPattern: '/manage-users-api/health/ping',
+    },
+    response: {
+      status: 200,
+    },
+  })
+
 export default {
   stubManageUser: stubUser,
   stubManageUserRoles: stubUserRoles,
+  stubPing: (): Promise<Response> => ping(),
 }
