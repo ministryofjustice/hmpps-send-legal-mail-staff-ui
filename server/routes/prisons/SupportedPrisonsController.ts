@@ -40,7 +40,7 @@ export default class SupportedPrisonsController {
 
   async removeSupportedPrison(req: Request, res: Response): Promise<void> {
     try {
-      await this.prisonService.removeSupportedPrison(req.user.token, req.params.prisonId)
+      await this.prisonService.removeSupportedPrison(req.user.token, req.params.prisonId as string)
     } catch (error) {
       req.flash('errors', [{ text: error.data.errorCode.userMessage }])
     }
