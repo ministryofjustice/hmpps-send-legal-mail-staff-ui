@@ -50,7 +50,7 @@ window.pageEnhancements = (($, document) => {
         const underlyingSelectField = $('#prisonId-select')
         const autoCompleteField = $('#prisonId')
         // In all cases start off by setting the underlying select option to the null/empty option
-        underlyingSelectField.children(`option[value='']`).prop('selected', true)
+        underlyingSelectField.children('option[value=""]').prop('selected', true)
         // Now find the option whose text matches the autocomplete field, and select it. If there is no match nothing will be selected
         underlyingSelectField
           .children('option')
