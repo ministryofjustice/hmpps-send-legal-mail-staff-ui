@@ -1,24 +1,18 @@
 {% extends "govuk/template.njk" %}
 
 {% block head %}
-  <link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
+<link href="/assets/stylesheets/application.css?{{ version }}" rel="stylesheet"/>
 
-  <script src="/assets/js/jquery.min.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-          integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-          nonce="{{ cspNonce }}"
-          crossorigin="anonymous"></script>
-
+<script src="/assets/js/jquery.min.js"></script>
+<script src="/assets/js/jquery-ui.min.js"></script>
 
 <script src="/assets/js/jquery.inputmask.js"></script>
 <script src="/assets/js/inputmask.binding.js"></script>
 
-  <script src="/assets/js/accessible-autocomplete.min.js"></script>
-  <link href="/assets/stylesheets/accessible-autocomplete.min.css" rel="stylesheet"/>
+<script src="/assets/js/accessible-autocomplete.min.js"></script>
+<link href="/assets/stylesheets/accessible-autocomplete.min.css" rel="stylesheet"/>
 
-  <script src="/assets/js/page-enhancements.js"></script>
-
-
+<script src="/assets/js/page-enhancements.js"></script>
 {% if feComponents.jsIncludes %}
   {% for js in feComponents.jsIncludes %}
     <script src="{{ js }}" nonce="{{ cspNonce }}"></script>
