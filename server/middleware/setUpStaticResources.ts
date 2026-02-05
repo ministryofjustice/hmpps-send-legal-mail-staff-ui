@@ -22,6 +22,7 @@ export default function setUpStaticResources(): Router {
     '/node_modules/@ministryofjustice/frontend/moj/assets',
     '/node_modules/@ministryofjustice/frontend',
     '/node_modules/jquery/dist',
+    '/node_modules/jquery-ui/dist',
     '/node_modules/inputmask/dist/bindings',
     '/node_modules/inputmask/dist',
     '/node_modules/accessible-autocomplete/dist',
@@ -35,6 +36,10 @@ export default function setUpStaticResources(): Router {
 
   Array.of('/node_modules/jquery/dist/jquery.min.js').forEach(dir => {
     router.use('/assets/js/jquery.min.js', express.static(path.join(process.cwd(), dir), cacheControl))
+  })
+
+  Array.of('/node_modules/jquery-ui/dist/jquery-ui.min.js').forEach(dir => {
+    router.use('/assets/js/jquery-ui.min.js', express.static(path.join(process.cwd(), dir), cacheControl))
   })
 
   Array.of('/node_modules/inputmask/dist/jquery.inputmask.js').forEach(dir => {
