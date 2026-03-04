@@ -38,7 +38,6 @@
     "accessible-autocomplete": "^3.0.1",
     "agentkeepalive": "^4.6.0",
     "applicationinsights": "^2.9.8",
-    "body-parser": "^2.2.2",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
     "compression": "^1.8.1",
@@ -105,10 +104,15 @@
     "nock": "^14.0.11",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
-    "prettier-plugin-jinja-template": "^2.1.0",
     "sass": "1.97.3",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "mocha": {
+      "diff": "^8.0.3",
+      "serialize-javascript": "^7.0.4"
+    }
   }
 }
