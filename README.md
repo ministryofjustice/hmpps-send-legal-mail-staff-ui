@@ -1,7 +1,8 @@
 # hmpps-send-legal-mail-staff-ui
 
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/hmpps-send-legal-mail-staff-ui/badge)](https://github-community.service.justice.gov.uk/repository-standards/hmpps-send-legal-mail-staff-ui)
-![pipeline](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/actions/workflows/pipeline.yml/badge.svg)](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+![pipeline](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/actions/workflows/pipeline.yml/badge.svg) 
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 ## About
 Typescript application for prison staff to allow scanning barcodes for legal mail (aka rule39 mail).
