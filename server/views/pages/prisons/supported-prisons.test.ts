@@ -20,7 +20,7 @@ describe('Manage supported prisons view', () => {
 
     const $ = cheerio.load(compiledTemplate.render(viewContext))
 
-    expect($('#manage-supported-prisons').length).toStrictEqual(1)
+    expect($('#pageId').attr('data-qa')).toStrictEqual('manage-supported-prisons')
   })
 
   it('should show errors', () => {
