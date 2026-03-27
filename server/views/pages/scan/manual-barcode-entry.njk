@@ -5,11 +5,10 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
 {% set pageTitle = "Manually enter a barcode - " + applicationName + " - DPS" %}
-{% set pageId = 'manually-enter-barcode' %}
 
 {% block content %}
 
-  <section class="app-container govuk-body">
+  <section class="app-container govuk-body" id="manually-enter-barcode">
     {% if errors.length > 0 %}
       {{ govukErrorSummary({
         titleText: 'There is a problem',

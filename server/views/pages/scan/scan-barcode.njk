@@ -6,11 +6,10 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% set pageTitle = "Scan a barcode - " + applicationName + " - DPS" %}
-{% set pageId = 'scan-barcode' %}
 
 {% block content %}
 
-  <section class="app-container govuk-body">
+  <section class="app-container govuk-body" id="scan-barcode">
     {% if errors.length > 0 %}
       {{ govukErrorSummary({
         titleText: 'There is a problem',

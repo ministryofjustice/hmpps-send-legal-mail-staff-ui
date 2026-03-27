@@ -6,11 +6,10 @@
 {% from "components/scan/scan-barcode-result-tag.njk" import scanBarcodeResultTag %}
 
 {% set pageTitle = "Result of scanning a barcode - " + applicationName + " - DPS" %}
-{% set pageId = 'scan-barcode-result' %}
 
 {% block content %}
 
-  <section class="app-container govuk-body">
+  <section class="app-container govuk-body" id="scan-barcode-result">
     {% if errors.length > 0 %}
       {{ govukErrorSummary({
         titleText: 'There is a problem',
