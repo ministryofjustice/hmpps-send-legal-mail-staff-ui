@@ -61,7 +61,7 @@ const redirect = () =>
         'Content-Type': 'text/html',
         Location: 'http://localhost:3007/sign-in/callback?code=codexxxx&state=stateyyyy',
       },
-      body: '<html><head><title>SignIn page</title></head><body><h1>Sign in</h1><span class="govuk-visually-hidden" id="pageId" data-qa="sign-in"></span></body></html>',
+      body: '<html><head><title>SignIn page</title></head><body><h1>Sign in</h1></body></html>',
     },
   })
 
@@ -76,7 +76,7 @@ const signOut = () =>
       headers: {
         'Content-Type': 'text/html',
       },
-      body: '<html><head><title>SignIn page</title></head><body><h1>Sign in</h1><span class="govuk-visually-hidden" id="pageId" data-qa="sign-in"></span></body></html>',
+      body: '<html><head><title>SignIn page</title></head><body><h1>Sign in</h1></body></html>',
     },
   })
 
@@ -91,7 +91,7 @@ const manageDetails = () =>
       headers: {
         'Content-Type': 'text/html',
       },
-      body: '<html><body><h1>Your account details</h1><span class="govuk-visually-hidden" id="pageId" data-qa="account-details"></span></body></html>',
+      body: '<html><body><h1>Your account details</h1></body></html>',
     },
   })
 

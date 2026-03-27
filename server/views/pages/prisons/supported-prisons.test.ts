@@ -20,7 +20,7 @@ describe('Manage supported prisons view', () => {
 
     const $ = cheerio.load(compiledTemplate.render(viewContext))
 
-    expect($('#manage-supported-prisons').length).toStrictEqual(1)
+    expect($('h1').text()).toStrictEqual('Manage supported prisons')
   })
 
   it('should show errors', () => {

@@ -8,7 +8,7 @@ export default abstract class Page {
   }
 
   protected constructor(
-    readonly pageId: string,
+    readonly title: string,
     private readonly options: { axeTest?: boolean } = {
       axeTest: true,
     },
@@ -20,7 +20,7 @@ export default abstract class Page {
   }
 
   checkOnPage = (): void => {
-    cy.get('#pageId').should('have.attr', 'data-qa').should('equal', this.pageId)
+    cy.get('h1').contains(this.title)
   }
 
   runAxe = (): void => {

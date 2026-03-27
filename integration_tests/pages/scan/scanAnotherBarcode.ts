@@ -6,7 +6,7 @@ import ManualBarcodeEntryPage from './manualBarcodeEntry'
 
 export default class ScanAnotherBarcodePage extends Page {
   constructor() {
-    super('scan-another-barcode')
+    super('Scan another barcode')
     this.barcodeFieldIsFocussed()
   }
 

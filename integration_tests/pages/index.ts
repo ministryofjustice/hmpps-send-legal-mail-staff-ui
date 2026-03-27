@@ -3,7 +3,7 @@ import ScanBarcodePage from './scan/scanBarcode'
 
 export default class IndexPage extends Page {
   constructor() {
-    super('index-page', { axeTest: true })
+    super('Check Rule 39 mail', { axeTest: true })
   }
 
   fallbackHeaderUserName = (): PageElement => cy.get('[data-qa=header-user-name]')
