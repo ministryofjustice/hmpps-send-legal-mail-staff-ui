@@ -41,17 +41,6 @@
   {% include "partials/breadcrumbs.njk" %}
 {% endblock %}
 
-{% block main %}
-  <div class="govuk-width-container {{ containerClasses }}">
-    <span class="govuk-visually-hidden" id="{{ pageId }}"></span>
-    <span class="govuk-visually-hidden" id="pageId" data-qa="{{ pageId }}"></span>
-    <main class="govuk-main-wrapper {{ mainClasses }}" id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
-      {% block content %}{% endblock %}
-    </main>
-  </div>
-{% endblock %}
-
-
 {% block bodyEnd %}
   {# Run JavaScript at end of the
   <body>, to avoid blocking the initial render. #}
