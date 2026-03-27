@@ -1,16 +1,14 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
 
-<nav aria-label="breadcrumbs">
-  {% if breadcrumbs %}
-    {{ govukBreadcrumbs({
-      items: breadcrumbs.items
-    }) }}
-  {% else %}
-    {{ govukBreadcrumbs({
-      items: [
-        {text: "Digital Prison Services", href: dpsUrl},
-        {text: "Check Rule 39 mail"}
-      ]
-    }) }}
-  {% endif %}
-</nav>
+{% if breadcrumbs %}
+  {{ govukBreadcrumbs({
+    items: breadcrumbs.items
+  }) }}
+{% else %}
+  {{ govukBreadcrumbs({
+    items: [
+      {text: "Digital Prison Services", href: dpsUrl},
+      {text: "Check Rule 39 mail"}
+    ]
+  }) }}
+{% endif %}
