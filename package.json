@@ -26,6 +26,7 @@
     "int-test": "cypress run --config video=false",
     "int-test-ui": "cypress open",
     "clean": "rm -rf dist build node_modules stylesheets",
+    "clean-build": "rm -rf dist build stylesheets",
     "setup": "npm ci && hmpps-npm-script-run-allowlist"
   },
   "engines": {
@@ -33,7 +34,7 @@
     "npm": "^11"
   },
   "dependencies": {
-    "@ministryofjustice/frontend": "^8.0.1",
+    "@ministryofjustice/frontend": "^9.0.0",
     "@ministryofjustice/hmpps-monitoring": "1.0.2",
     "accessible-autocomplete": "^3.0.1",
     "agentkeepalive": "^4.6.0",
@@ -47,7 +48,7 @@
     "express": "^5.2.1",
     "express-prom-bundle": "^8.0.0",
     "express-session": "^1.19.0",
-    "govuk-frontend": "^5.14.0",
+    "govuk-frontend": "^6.1.0",
     "helmet": "^8.1.0",
     "http-errors": "^2.0.1",
     "inputmask": "^5.0.9",

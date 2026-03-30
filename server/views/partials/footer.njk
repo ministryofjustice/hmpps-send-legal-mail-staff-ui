@@ -1,10 +1,12 @@
 {% from "govuk/components/footer/macro.njk" import govukFooter %}
 
-{{ govukFooter({
-  classes: 'govuk-!-display-none-print',
-  contentLicence: {text: "Official sensitive"},
-  meta: {
-    items: []
-  }
- })
-}}
+<footer>
+  {{ govukFooter({
+    classes: 'govuk-!-display-none-print',
+    contentLicence: {text: "Official sensitive"},
+    meta: {
+      items: []
+    }
+  })
+  }}
+</footer>

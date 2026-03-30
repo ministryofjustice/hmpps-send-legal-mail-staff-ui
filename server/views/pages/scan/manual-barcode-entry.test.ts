@@ -20,7 +20,7 @@ describe('Request one time code view', () => {
 
     const $ = cheerio.load(compiledTemplate.render(viewContext))
 
-    expect($('#manually-enter-barcode').length).toStrictEqual(1)
+    expect($('#pageId').attr('data-qa')).toStrictEqual('manually-enter-barcode')
   })
 
   it('should display barcode input and errors', () => {
