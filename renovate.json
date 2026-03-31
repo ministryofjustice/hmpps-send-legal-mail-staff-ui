@@ -2,6 +2,9 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["github>ministryofjustice/hmpps-renovate-config:node"],
   "prBodyTemplate": "{{{table}}}{{{notes}}}{{{warnings}}}{{{controls}}}",
+  "prCreation": "immediate",
+  "dependencyDashboard": true,
+  "schedule": ["* * * * 0,6"],
   "packageRules": [
     {
       "matchManagers": ["npm"],
@@ -12,21 +15,31 @@
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "all non major NPM dependencies",
       "groupSlug": "all-npm-minor-patch",
-      "stabilityDays": 5
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "matchDepTypes": ["engines"],
+      "enabled": false
     },
     {
       "matchPackageNames": ["typescript", "govuk-frontend"],
       "rangeStrategy": "bump",
-      "stabilityDays": 0
+      "minimumReleaseAge": null
     },
     {
       "matchManagers": ["npm"],
       "matchPackageNames": ["@types/node"],
       "matchUpdateTypes": ["major"],
       "enabled": false
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ],
   "vulnerabilityAlerts": {
-    "stabilityDays": 0
+    "minimumReleaseAge": null
   }
 }
