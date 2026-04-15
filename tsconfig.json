@@ -1,10 +1,8 @@
 {
   "extends": "@tsconfig/node24/tsconfig.json",
   "compileOnSave": true,
+  "isolatedModules": true,
   "compilerOptions": {
-    "isolatedModules": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
     "outDir": "./dist",
     "sourceMap": true,
     "skipLibCheck": true,
@@ -16,7 +14,9 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "experimentalDecorators": true,
-    "typeRoots": ["./server/@types", "./node_modules/@types"]
+    "typeRoots": ["./server/@types", "./node_modules/@types"],
+    "types": ["node", "jest"],
+    "rootDir": "."
   },
   "exclude": ["node_modules", "assets/**/*.js", "integration_tests", "dist", "cypress.config.ts", "eslint.config.mjs"],
   "include": ["**/*.js", "**/*.ts"]
