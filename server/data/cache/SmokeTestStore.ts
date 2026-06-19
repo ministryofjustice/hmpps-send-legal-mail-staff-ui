@@ -26,10 +26,10 @@ export default class SmokeTestStore {
     await this.client.set(`${this.prefix}${this.key}`, oneTimeSecret, { EX: 60 })
   }
 
-  public async getSmokeTestSecret(): Promise<string> {
+  public async getSmokeTestSecret(): Promise<string | null> {
     await this.ensureConnected()
     const result = await this.client.get(`${this.prefix}${this.key}`)
-    return Buffer.isBuffer(result) ? result.toString() : result
+    return typeof result === 'string' ? result : null
   }
 
   public async startSmokeTest(req: Request): Promise<string> {
