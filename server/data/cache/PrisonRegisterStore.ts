@@ -30,7 +30,7 @@ export default class PrisonRegisterStore {
   public async getActivePrisons(): Promise<Array<Prison>> {
     await this.ensureConnected()
     return this.client.get(`${this.prefix}${this.key}`).then(serializedData => {
-      const returnData = Buffer.isBuffer(serializedData) ? serializedData.toString() : serializedData
+      const returnData = typeof serializedData === 'string' ? serializedData : null
       return JSON.parse(returnData) as Array<Prison>
     })
   }
