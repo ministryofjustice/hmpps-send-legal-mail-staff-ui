@@ -19,6 +19,7 @@
     "watch-node-feature": "export $(cat feature.env) && nodemon --watch dist/ $NODE_DEBUG_OPTION dist/server.js | bunyan -o short",
     "start-feature:dev": "concurrently -k -p \"[{name}]\" -n \"Views,TypeScript,Node,Sass\" -c \"yellow.bold,cyan.bold,green.bold,blue.bold\" \"npm run watch-views\" \"npm run watch-ts\" \"npm run watch-node-feature\" \"npm run watch-sass\"",
     "lint": "eslint . --cache --max-warnings 0",
+    "lint-fix": "eslint . --no-warn-ignored --fix",
     "typecheck": "tsc && tsc -p integration_tests",
     "test": "jest",
     "test:ci": "jest --runInBand",
@@ -61,7 +62,7 @@
     "passport": "^0.7.0",
     "passport-oauth2": "^1.8.0",
     "prom-client": "^15.1.3",
-    "redis": "^6.0.1",
+    "redis": "^6.1.0",
     "superagent": "10.3.0",
     "url-value-parser": "^2.2.0"
   },
@@ -102,21 +103,21 @@
     "jsonwebtoken": "^9.0.3",
     "lint-staged": "^17.0.8",
     "mocha-junit-reporter": "^2.2.1",
-    "nock": "^14.0.15",
+    "nock": "^14.0.16",
     "nodemon": "^3.1.14",
-    "prettier": "^3.8.4",
+    "prettier": "^3.9.4",
     "sass": "1.101.0",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.11",
     "typescript": "^6.0.3"
   },
   "overrides": {
-    "@opentelemetry/core": "2.8.0",
+    "@opentelemetry/core": "2.9.0",
     "form-data": "4.0.6",
-    "js-yaml": "5.1.0",
+    "js-yaml": "5.2.1",
     "mocha": {
       "diff": "^8.0.4",
-      "serialize-javascript": "^7.0.6"
+      "serialize-javascript": "^7.0.7"
     }
   }
 }
