@@ -1,4 +1,4 @@
-name: Security CodeQL code scan
+name: Security Snyk dependency check
 
 on:
   workflow_dispatch:
