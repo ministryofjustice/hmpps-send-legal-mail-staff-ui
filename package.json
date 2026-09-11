@@ -91,7 +91,7 @@
     "cheerio": "^1.2.0",
     "concurrently": "^10.0.4",
     "cookie-session": "^2.1.1",
-    "cypress": "^15.19.0",
+    "cypress": "^16.0.0",
     "cypress-axe": "^1.7.0",
     "cypress-multi-reporters": "^2.0.5",
     "dotenv": "^17.4.2",
