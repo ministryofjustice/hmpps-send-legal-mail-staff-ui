@@ -11,6 +11,7 @@ import type { Services } from '../../services'
 import type { ApplicationInfo } from '../../applicationInfo'
 import UserService from '../../services/userService'
 import setUpCurrentUser from '../../middleware/setUpCurrentUser'
+import maintenancePageRoute from '../maintenancePageRoute'
 
 class MockUserService extends UserService {
   constructor() {
@@ -52,6 +53,7 @@ function appSetup(services: Services, production: boolean, userSupplier: () => E
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
+  app.use(maintenancePageRoute())
   app.use(setUpCurrentUser(services))
   app.use(routes(services))
   app.use((req, res, next) => next(createError(404, 'Not found')))

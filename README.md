@@ -1,7 +1,7 @@
 # hmpps-send-legal-mail-staff-ui
 
 [![Ministry of Justice Repository Compliance Badge](https://github-community.service.justice.gov.uk/repository-standards/api/hmpps-send-legal-mail-staff-ui/badge?style=flat)](https://github-community.service.justice.gov.uk/repository-standards/hmpps-send-legal-mail-staff-ui)
-![pipeline](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/actions/workflows/pipeline.yml/badge.svg) 
+![pipeline](https://github.com/ministryofjustice/hmpps-send-legal-mail-staff-ui/actions/workflows/pipeline.yml/badge.svg)
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 ## About
@@ -53,21 +53,21 @@ Note that you will need to run prettier over the generated files and possibly ha
 The types are inherited for use in `server/@types/sendLegalMailApiClientTypes/index.d.ts` and `server/@types/prisonRegisterApiClientTypes/index.d.ts` which may also need tweaking for use.
 
 ## Running the app
-The easiest way to run the app is to use docker compose to create the service and all dependencies. 
+The easiest way to run the app is to use docker compose to create the service and all dependencies.
 
 `docker-compose pull`
 
 `docker-compose up`
 
 ### Dependencies
-The app requires: 
+The app requires:
 * hmpps-auth - for authentication
 * nomis-user-roles-api - for authentication
 * redis - session store and token caching
 
 ### Running the app for development
 
-To start the main services excluding the example typescript template app: 
+To start the main services excluding the example typescript template app:
 
 `docker-compose up redis hmpps-auth nomis-user-roles-api`
 
@@ -127,3 +127,45 @@ And then either, run tests in headless mode with:
 Or run tests with the cypress UI:
 
 `npm run int-test-ui`
+
+Maintenance page
+The application has a maintenance page with a service unavailable message. It can also optionally show a date when the service will be available again. The maintenance page is served for all requests except:
+
+the 'health check' ones (/health, /info, /ping) (/info will return an HTTP 503 if orchestration and/or visit scheduler services are unavailable)
+HMPPS Auth related ones (e.g. /sign-in) Logged in users will still see the DPS header and footer.
+This behaviour is controlled by two environment variables. Default values are in Helm config:
+
+MAINTENANCE_MODE: "false"
+# Optional maintenance end date (in ISO format, YYYY-MM-DDTHH:MM)
+MAINTENANCE_MODE_END_DATE_TIME: ""
+To see the current state of these variables, use this command:
+
+# example is for 'dev' namespace; replace with 'prod' as appropriate
+
+kubectl -n send-legal-mail-to-prisons-dev set env deployment/hmpps-send-legal-mail-staff-ui --list
+Maintenance mode can be turned on by either:
+
+changing the values for an environment (e.g. prod) in Helm config, committing and deploying
+manually changing the values for an environment and restarting the pods
+Manually enabling maintenance mode
+To turn on maintenance mode, use one of these commands (depending on whether an end date and time should be shown):
+
+# examples are for 'dev' namespace; replace with 'prod' as appropriate
+
+# Enable maintenance with no end date and time displayed
+kubectl -n send-legal-mail-to-prisons-dev set env deployment/hmpps-send-legal-mail-staff-ui MAINTENANCE_MODE=true
+
+# Enable maintenance page that includes an end date and time
+kubectl -n send-legal-mail-to-prisons-dev set env deployment/hmpps-send-legal-mail-staff-ui MAINTENANCE_MODE=true MAINTENANCE_MODE_END_DATE_TIME=2025-10-01T14:00
+This will update the environment variables and restart the pods. To see the status of pods, use:
+
+kubectl -n send-legal-mail-to-prisons-dev get pods
+Once these are restarted, the maintenance page will be active.
+
+Manually disabling maintenance mode
+To turn off maintenance mode, run this command:
+
+# example is for 'dev' namespace; replace with 'prod' as appropriate
+
+kubectl -n send-legal-mail-to-prisons-dev set env deployment/hmpps-send-legal-mail-staff-ui MAINTENANCE_MODE=false
+This will update the environment variables and restart the pods. Once these are restarted, the maintenance page will be turned off.
