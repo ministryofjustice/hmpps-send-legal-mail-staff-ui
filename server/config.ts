@@ -113,4 +113,8 @@ export default {
   smoketest: {
     msjSecret: get('APP_SMOKETEST_MSJSECRET', null),
   },
+  maintenance: {
+    enabled: get('MAINTENANCE_MODE', 'false') === 'true',
+    endDateTime: get('MAINTENANCE_MODE_END_DATE_TIME', ''), // ISO format e.g. YYYY-MM-DDTHH:MM
+  },
 }
