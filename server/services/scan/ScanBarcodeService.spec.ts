@@ -25,6 +25,10 @@ describe('Scan Barcode Service', () => {
     nock.cleanAll()
   })
 
+  afterAll(() => {
+    nock.restore()
+  })
+
   describe('verifyBarcode', () => {
     it('should verify a barcode given API returns a CheckBarcodeResponse', done => {
       const checkBarcodeResponse: CheckBarcodeResponse = { createdBy: 'Aarvark Lawyers' }

@@ -12,6 +12,10 @@ describe('restClientMetricsMiddleware', () => {
     jest.clearAllMocks()
   })
 
+  afterAll(() => {
+    nock.restore()
+  })
+
   describe('normalizePath', () => {
     it('removes the query params from the URL path', () => {
       const result = normalizePath('https://httpbin.org/?foo=bar')

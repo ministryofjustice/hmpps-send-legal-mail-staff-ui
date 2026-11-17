@@ -21,6 +21,10 @@ describe('manageUsersApiClient', () => {
     nock.cleanAll()
   })
 
+  afterAll(() => {
+    nock.restore()
+  })
+
   describe('getUser', () => {
     it('should return data from api', async () => {
       const response = { data: 'data' }

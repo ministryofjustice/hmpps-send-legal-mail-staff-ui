@@ -16,6 +16,10 @@ const restClient = new RestClient(
 )
 
 describe('POST', () => {
+  afterAll(() => {
+    nock.restore()
+  })
+
   it('Should return response body', async () => {
     nock('http://localhost:8080', {
       reqheaders: { authorization: 'Bearer token-1' },
