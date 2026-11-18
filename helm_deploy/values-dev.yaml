@@ -16,6 +16,7 @@ generic-service:
     COMPONENT_API_URL: "https://frontend-components-dev.hmpps.service.justice.gov.uk"
     DPS_URL: "https://digital-dev.prison.service.justice.gov.uk"
     ENVIRONMENT_NAME: dev
+    LOG_LEVEL: "debug"
 
   namespace_secrets:
     smoke-test:
