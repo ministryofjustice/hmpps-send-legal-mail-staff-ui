@@ -16,9 +16,6 @@ The application has a health endpoint found at `/health` which indicates if the 
 ### Ping
 The application has a ping endpoint found at `/ping` which indicates that the app is responding to requests.
 
-### Maintenance pages
-TBD.
-
 ### Build
 <em>Requires membership of Github team `hmpps-send-legal-mail-live`</em>
 
@@ -128,44 +125,55 @@ Or run tests with the cypress UI:
 
 `npm run int-test-ui`
 
-Maintenance page
+## Maintenance page
 The application has a maintenance page with a service unavailable message. It can also optionally show a date when the service will be available again. The maintenance page is served for all requests except:
+* the 'health check' ones (`/health, /info, /ping`) (`/info` will return an `HTTP 503` if send-legal-mail API service is unavailable)
+* HMPPS Auth related ones (e.g. `/sign-in`)
+Logged in users will still see the DPS header and footer.
 
-the 'health check' ones (/health, /info, /ping) (/info will return an HTTP 503 if orchestration and/or visit scheduler services are unavailable)
-HMPPS Auth related ones (e.g. /sign-in) Logged in users will still see the DPS header and footer.
 This behaviour is controlled by two environment variables. Default values are in Helm config:
+```
+  MAINTENANCE_MODE: "false"
+  # Optional maintenance end date (in ISO format, YYYY-MM-DDTHH:MM)
+  MAINTENANCE_MODE_END_DATE_TIME: ""
+```
 
-MAINTENANCE_MODE: "false"
-# Optional maintenance end date (in ISO format, YYYY-MM-DDTHH:MM)
-MAINTENANCE_MODE_END_DATE_TIME: ""
 To see the current state of these variables, use this command:
-
+```
 # example is for 'dev' namespace; replace with 'prod' as appropriate
 
 kubectl -n send-legal-mail-to-prisons-dev set env deployment/hmpps-send-legal-mail-staff-ui --list
+```
+
 Maintenance mode can be turned on by either:
+* changing the values for an environment (e.g. prod) in Helm config, committing and deploying
+* manually changing the values for an environment and restarting the pods
 
-changing the values for an environment (e.g. prod) in Helm config, committing and deploying
-manually changing the values for an environment and restarting the pods
-Manually enabling maintenance mode
+
+### Manually enabling maintenance mode
 To turn on maintenance mode, use one of these commands (depending on whether an end date and time should be shown):
-
+```
 # examples are for 'dev' namespace; replace with 'prod' as appropriate
 
 # Enable maintenance with no end date and time displayed
 kubectl -n send-legal-mail-to-prisons-dev set env deployment/hmpps-send-legal-mail-staff-ui MAINTENANCE_MODE=true
 
 # Enable maintenance page that includes an end date and time
-kubectl -n send-legal-mail-to-prisons-dev set env deployment/hmpps-send-legal-mail-staff-ui MAINTENANCE_MODE=true MAINTENANCE_MODE_END_DATE_TIME=2025-10-01T14:00
-This will update the environment variables and restart the pods. To see the status of pods, use:
+kubectl -n send-legal-mail-to-prisons-dev set env  deployment/hmpps-send-legal-mail-staff-ui MAINTENANCE_MODE=true MAINTENANCE_MODE_END_DATE_TIME=2025-10-01T14:00
+```
 
+This will update the environment variables and restart the pods. To see the status of pods, use:
+```
 kubectl -n send-legal-mail-to-prisons-dev get pods
+```
 Once these are restarted, the maintenance page will be active.
 
-Manually disabling maintenance mode
-To turn off maintenance mode, run this command:
 
+### Manually disabling maintenance mode
+To turn off maintenance mode, run this command:
+```
 # example is for 'dev' namespace; replace with 'prod' as appropriate
 
 kubectl -n send-legal-mail-to-prisons-dev set env deployment/hmpps-send-legal-mail-staff-ui MAINTENANCE_MODE=false
+```
 This will update the environment variables and restart the pods. Once these are restarted, the maintenance page will be turned off.
